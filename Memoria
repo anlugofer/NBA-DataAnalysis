@@ -1,0 +1,2875 @@
+% main.tex
+\documentclass[12pt,a4paper,twoside,openright]{report}
+
+% Paquetes esenciales
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% Geometría y márgenes
+\usepackage[left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+
+% Gráficos y figuras
+\usepackage[pdftex]{graphicx}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% Tablas
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{longtable}
+
+% Matemáticas
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+
+% Código fuente
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configuración de listings
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+% Referencias y enlaces
+\usepackage[hidelinks]{hyperref}
+\usepackage[spanish]{cleveref}
+
+% Bibliografía
+\usepackage[backend=biber,style=ieee,sorting=none]{biblatex}
+\addbibresource{bibliografia.bib}
+
+% Encabezados y pies de página
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\leftmark}
+\fancyhead[RO]{\rightmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Teoremas y definiciones
+\newtheorem{definition}{Definición}[chapter]
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{lemma}{Lema}[chapter]
+\newtheorem{corollary}{Corolario}[chapter]
+
+% Información del documento
+\title{Sistema Avanzado de Análisis y Predicción de Rendimiento en la NBA mediante Técnicas de Machine Learning}
+\author{Antonio Luis Godino}
+\date{\today}
+
+% Comandos personalizados
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\begin{document}
+
+% ============================================================
+% PORTADA
+% ============================================================
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    
+    {\huge\bfseries Universidad de Granada\par}
+    \vspace{0.5cm}
+    {\Large Facultad Ceuta\par}
+    \vspace{2cm}
+    
+    {\Huge\bfseries TRABAJO FIN DE GRADO\par}
+    \vspace{1.5cm}
+    
+    {\LARGE\itshape Portada Provisional\par}
+    \vspace{2cm}
+    
+    {\Large\bfseries Grado en Ingeniería Informática\par}
+    \vspace{1cm}
+    
+    {\large
+    \begin{tabular}{ll}
+        \textbf{Autor:} & Antonio Luis Godino \\
+        \textbf{Tutor:} & Quiero aprobar por favor \\
+        \textbf{Curso Académico:} & 2025/2026 \\
+    \end{tabular}
+    \par}
+    
+    \vfill
+    
+    {\large \today\par}
+\end{titlepage}
+
+\newpage
+\clearpage
+\vspace*{\fill}
+\begin{minipage}{1\textwidth}
+\begin{flushright}
+
+
+
+\textit{A mi mejor amigo, Dani Cortés\\ por aguantarme durante todos estos años de universidad\\ y salvarme la vida en más de una ocasión. \\No podría haber llegado aquí sin ti.}
+\end{flushright}
+\end{minipage}
+
+\vfill
+\clearpage
+
+\newpage
+
+% ============================================================
+% RESUMEN Y ABSTRACT
+% ============================================================
+\section*{Resumen}
+\addcontentsline{toc}{chapter}{Resumen}
+
+El análisis deportivo ha experimentado una revolución en las últimas décadas gracias a la disponibilidad de grandes volúmenes de datos y el desarrollo de técnicas avanzadas de Machine Learning. Este Trabajo de Fin de Grado presenta el diseño e implementación de un sistema integral de análisis y predicción de rendimiento en la National Basketball Association (NBA) denominado \textbf{NBA Analytics Pro}.
+
+El sistema desarrollado procesa más de 1.3 millones de registros \textit{play-by-play} correspondientes a las temporadas 2022 y 2023, extrayendo estadísticas detalladas de 630 jugadores profesionales. La arquitectura implementada combina un backend robusto en Node.js con Express para el procesamiento de datos CSV, una interfaz web interactiva con visualizaciones avanzadas mediante Chart.js, y un motor de Machine Learning implementado desde cero en JavaScript utilizando algoritmos Random Forest y Decision Trees.
+
+Las principales contribuciones de este trabajo incluyen: (1) un sistema completo de procesamiento y limpieza de datos deportivos con deduplicación inteligente, (2) implementación nativa de algoritmos ML sin dependencias externas, (3) sistema de predicción contextual que considera variables como cuarto del partido, diferencia de puntos, tiempo restante y posición en cancha, (4) interfaz web profesional con análisis comparativo de jugadores y visualización de mapas de tiros, y (5) arquitectura modular y escalable siguiendo mejores prácticas de desarrollo web.
+
+Los resultados demuestran la viabilidad de aplicar técnicas de Machine Learning al análisis deportivo, alcanzando precisiones superiores al 85\% en predicciones de rendimiento individual y proporcionando \textit{insights} valiosos para análisis táctico y estratégico del baloncesto profesional.
+
+\textbf{Palabras clave:} Machine Learning, NBA, Análisis Deportivo, Random Forest, Decision Trees, Visualización de Datos, Aplicación Web, JavaScript, Node.js.
+
+\newpage
+
+\section*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+Sports analytics has undergone a revolution in recent decades thanks to the availability of large volumes of data and the development of advanced Machine Learning techniques. This Bachelor's Thesis presents the design and implementation of a comprehensive system for performance analysis and prediction in the National Basketball Association (NBA) called \textbf{NBA Analytics Pro}.
+
+The developed system processes over 1.3 million play-by-play records from the 2022 and 2023 seasons, extracting detailed statistics for 630 professional players. The implemented architecture combines a robust Node.js backend with Express for CSV data processing, an interactive web interface with advanced visualizations using Chart.js, and a Machine Learning engine implemented from scratch in JavaScript using Random Forest and Decision Tree algorithms.
+
+The main contributions of this work include: (1) a complete sports data processing and cleaning system with intelligent deduplication, (2) native implementation of ML algorithms without external dependencies, (3) contextual prediction system considering variables such as game quarter, score differential, time remaining, and court position, (4) professional web interface with comparative player analysis and shot map visualization, and (5) modular and scalable architecture following web development best practices.
+
+The results demonstrate the feasibility of applying Machine Learning techniques to sports analysis, achieving accuracies exceeding 85\% in individual performance predictions and providing valuable \textit{insights} for tactical and strategic analysis of professional basketball.
+
+\textbf{Keywords:} Machine Learning, NBA, Sports Analytics, Random Forest, Decision Trees, Data Visualization, Web Application, JavaScript, Node.js
+
+% ============================================================
+% ÍNDICES
+% ============================================================
+\tableofcontents
+\listoffigures
+\listoftables
+
+% ============================================================
+% CAPÍTULO 1: INTRODUCCIÓN
+% ============================================================
+\chapter{Introducción}
+
+\section{Contexto y Motivación}
+
+El deporte profesional ha experimentado una transformación radical en las últimas dos décadas impulsada por la revolución de los datos. Lo que tradicionalmente se basaba en la intuición de entrenadores y el análisis visual de partidos, se ha convertido en una disciplina cuantitativa donde cada acción, cada movimiento y cada decisión puede ser medida, analizada y optimizada.
+
+La National Basketball Association (NBA), como una de las ligas deportivas más innovadoras del mundo, ha sido pionera en la adopción de tecnologías avanzadas de captura y análisis de datos. Desde la introducción del sistema SportVU \cite{sportvu2013} en 2013, que utiliza cámaras ópticas para rastrear la posición de jugadores y balón 25 veces por segundo, hasta los modernos sistemas de \textit{tracking} tridimensional, la NBA genera terabytes de datos cada temporada.
+
+Este cambio de paradigma ha creado nuevas oportunidades y desafíos:
+
+\begin{itemize}
+    \item \textbf{Volumen de datos sin precedentes:} Cada temporada NBA genera millones de registros jugada a jugada (\textit{play-by-play}) que incluyen posiciones, tiros, pases, movimientos defensivos y múltiples variables contextuales.
+    
+    \item \textbf{Complejidad analítica:} Los datos deportivos presentan características únicas como alta dimensionalidad, dependencias temporales, interacciones complejas entre jugadores y situaciones contextuales que requieren técnicas avanzadas para su análisis efectivo.
+    
+    \item \textbf{Aplicaciones prácticas:} Desde la optimización de estrategias de juego hasta la valoración de jugadores y prevención de lesiones, el análisis de datos se ha convertido en un componente estratégico fundamental.
+    
+    \item \textbf{Democratización del análisis:} Aunque los equipos profesionales cuentan con departamentos analíticos sofisticados, existe una brecha significativa en herramientas accesibles para analistas independientes, periodistas deportivos y aficionados avanzados.
+\end{itemize}
+
+\newpage
+
+\subsection{Machine Learning en el Análisis Deportivo}
+
+El Machine Learning (ML) \cite{hastie2009,bishop2006} ha emergido como la tecnología clave para extraer valor de los datos deportivos masivos. A diferencia de los métodos estadísticos tradicionales que requieren especificar manualmente las relaciones entre variables, los algoritmos de ML pueden descubrir patrones complejos y no lineales directamente de los datos.
+
+Las aplicaciones de ML en deportes \cite{winston2009,lewis2003} han demostrado su efectividad en múltiples dominios:
+
+\begin{enumerate}
+    \item \textbf{Predicción de rendimiento:} Modelos que estiman el rendimiento futuro de jugadores basándose en su historial y características contextuales.
+    
+    \item \textbf{Análisis táctico:} Identificación automática de patrones de juego, formaciones defensivas y estrategias ofensivas mediante técnicas de \textit{clustering} y clasificación.
+    
+    \item \textbf{Evaluación de jugadores:} Sistemas avanzados de valoración que consideran no solo estadísticas individuales sino también contribuciones defensivas, espaciado de cancha y química de equipo.
+    
+    \item \textbf{Predicción de resultados:} Modelos probabilísticos que estiman la probabilidad de victoria considerando múltiples factores como estado físico, historial de enfrentamientos y ventaja del local.
+    
+    \item \textbf{Prevención de lesiones:} Análisis de carga de trabajo y patrones de movimiento para identificar riesgos de lesión antes de que ocurran.
+\end{enumerate}
+
+\subsection{Brecha Tecnológica y Oportunidad}
+
+A pesar de los avances en análisis deportivo profesional, existe una brecha significativa entre las herramientas disponibles para equipos NBA con presupuestos millonarios y las opciones accesibles para el público general. Las principales limitaciones incluyen:
+
+\begin{itemize}
+    \item \textbf{Costo prohibitivo:} Plataformas comerciales como Synergy Sports \cite{synergy-sports}, Second Spectrum \cite{second-spectrum} y Stats Perform \cite{stats-perform} tienen costos anuales que superan los 100.000\$, fuera del alcance de analistas independientes.
+    
+    \item \textbf{Complejidad técnica:} Herramientas académicas y bibliotecas especializadas requieren conocimientos avanzados de programación, estadística y ML, creando barreras de entrada significativas.
+    
+    \item \textbf{Fragmentación de datos:} Los datos NBA están distribuidos en múltiples fuentes (NBA.com, Basketball Reference, stats.nba.com) \cite{nba-stats-api,basketball-reference} con formatos inconsistentes y APIs limitadas.
+    
+    \item \textbf{Falta de integración:} No existen soluciones que integren procesamiento de datos, análisis ML y visualización interactiva en una plataforma única y accesible.
+\end{itemize}
+
+\section{Objetivos del Proyecto}
+
+El objetivo principal de este Trabajo de Fin de Grado es diseñar, implementar y evaluar un sistema integral de análisis y predicción de rendimiento en la NBA que democratice el acceso a técnicas avanzadas de Machine Learning para el análisis deportivo.
+
+\subsection{Objetivos Generales}
+
+\begin{enumerate}
+    \item Desarrollar una plataforma web completa que permita a usuarios sin conocimientos técnicos avanzados realizar análisis sofisticados de datos NBA utilizando técnicas de Machine Learning.
+    
+    \item Implementar algoritmos de ML desde cero en JavaScript.
+    
+    \item Crear un sistema de visualización interactivo que facilite la interpretación de resultados analíticos y predicciones ML mediante gráficas profesionales y mapas de cancha.
+    
+    \item Establecer una arquitectura modular y escalable que pueda servir como base para futuras extensiones y mejoras del sistema.
+\end{enumerate}
+
+\subsection{Objetivos Específicos}
+
+\subsubsection{Procesamiento y Gestión de Datos}
+
+\begin{itemize}
+    \item Implementar un sistema robusto de carga y procesamiento de archivos CSV \textit{play-by-play} que maneje más de 1 millón de registros eficientemente.
+    
+    \item Desarrollar algoritmos de limpieza y deduplicación de datos que identifiquen y eliminen registros duplicados preservando la integridad de las estadísticas.
+    
+    \item Crear estructuras de datos optimizadas para almacenar y consultar información de jugadores, equipos y estadísticas de manera eficiente.
+    
+\end{itemize}
+
+\subsubsection{Algoritmos de Machine Learning}
+
+\begin{itemize}
+    \item Implementar el algoritmo \textit{Decision Tree} (Árbol de Decisión) completo incluyendo:
+    \begin{itemize}
+        \item Cálculo de impureza mediante \textit{Mean Squared Error} (MSE)
+        \item Búsqueda exhaustiva de mejores \textit{splits}
+        \item Construcción recursiva del árbol con poda por profundidad
+        \item Sistema de predicción mediante navegación del árbol
+    \end{itemize}
+    
+    \item Desarrollar el algoritmo \textit{Random Forest} incluyendo:
+    \begin{itemize}
+        \item \textit{Bootstrap sampling}(remuestreo con reemplazo) para crear múltiples muestras de entrenamiento
+        \item Entrenamiento paralelo de múltiples árboles de decisión
+        \item Sistema de agregación de predicciones (bagging)
+        \item Cálculo de importancia de características
+    \end{itemize}
+    
+    \item Implementar métricas de evaluación de modelos:
+    \begin{itemize}
+        \item \textit{Mean Absolute Error} (MAE)
+        \item \textit{Root Mean Squared Error} (RMSE)
+        \item Coeficiente de determinación (R²)
+        \item Precisión relativa por categoría estadística
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Sistema de Predicción Contextual}
+
+\begin{itemize}
+    \item Desarrollar un módulo de predicción de jugadas que considere variables contextuales:
+    \begin{itemize}
+        \item Cuarto del partido y tiempo restante
+        \item Diferencia de puntos (\textit{score differential})
+        \item Posición en cancha (coordenadas X, Y)
+    \end{itemize}
+    
+    \item Implementar clasificación automática de tipos de jugadas:
+    \begin{itemize}
+        \item Tiros de 2 puntos por zona
+        \item Triples por ubicación (esquina, ala, centro)
+        \item Tiros libres
+        \item Jugadas de alta presión (\textit{clutch time})
+    \end{itemize}
+    
+    \item Crear sistema de \textit{\textit{insights}} automáticos que genere recomendaciones tácticas basadas en predicciones ML.
+\end{itemize}
+
+\subsubsection{Interfaz Web y Visualización}
+
+\begin{itemize}
+    \item Diseñar una interfaz responsiva con HTML5, CSS3 y JavaScript que funcione en dispositivos móviles y ordenadores.
+    
+    \item Implementar sistema de navegación por pestañas que organice las funcionalidades:
+    \begin{itemize}
+        \item Análisis individual de jugadores
+        \item Comparación multi-dimensional entre jugadores
+        \item Predicciones ML con configuración de contexto
+        \item Exploración de datos y estadísticas del \textit{dataset}
+    \end{itemize}
+    
+    \item Crear visualizaciones interactivas utilizando Chart.js:
+    \begin{itemize}
+        \item Gráficos de distribución de tiros (\textit{donut charts})
+        \item Porcentajes de éxito por tipo de tiro (\textit{bar charts})
+        \item Tendencias de rendimiento (\textit{line charts})
+        \item Mapas de calor de cancha NBA (\textit{custom charts})
+        \item Comparaciones radar multi-dimensionales
+    \end{itemize}
+    
+    \item Implementar sistema de búsqueda y filtrado de jugadores con respuesta en tiempo real.
+\end{itemize}
+
+\subsubsection{Arquitectura Backend}
+
+\begin{itemize}
+    \item Desarrollar servidor Node.js con Express que proporcione:
+    \begin{itemize}
+        \item API RESTful para acceso a datos de jugadores
+        \item \textit{Endpoints} de entrenamiento y predicción ML
+        \item Sistema de caché para optimizar consultas frecuentes
+        \item Manejo robusto de errores
+    \end{itemize}
+    
+    \item Implementar procesamiento asíncrono de operaciones costosas para mantener la responsividad del sistema.
+    
+    \item Crear arquitectura modular que separe claramente:
+    \begin{itemize}
+        \item Capa de datos (\textit{data layer})
+        \item Lógica de negocio (\textit{business logic})
+        \item Algoritmos ML (\textit{ML engine})
+        \item Presentación (\textit{frontend})
+    \end{itemize}
+\end{itemize}
+
+\section{Estructura del Documento}
+
+El presente documento se estructura en los siguientes capítulos:
+
+\textbf{Capítulo 2 - Estado del Arte:} Revisión exhaustiva de la literatura académica y comercial sobre análisis deportivo con ML, incluyendo técnicas de \textit{\textit{feature} engineering} (ingeniería de características), algoritmos utilizados, métricas de evaluación y aplicaciones prácticas.
+
+\textbf{Capítulo 3 - Análisis y Diseño:} Análisis detallado de requisitos funcionales y no funcionales, diseño de la arquitectura del sistema, modelado de datos y especificación de interfaces.
+
+\textbf{Capítulo 4 - Implementación:} Descripción técnica de la implementación de cada componente del sistema, decisiones de diseño, optimizaciones aplicadas y gestión de dependencias.
+
+\textbf{Capítulo 5 - Algoritmos de \textit{Machine Learning}:} Fundamentación teórica y detalles de implementación de los algoritmos \textit{Random Forest} y \textit{Decision Trees}, incluyendo análisis de complejidad.
+
+\textbf{Capítulo 6 - Conclusiones y Trabajo Futuro:} Síntesis de contribuciones, limitaciones identificadas, lecciones aprendidas y líneas de trabajo futuro.
+\newpage
+
+\section{Análisis temporal y de costes}
+
+\begin{figure}[H]    
+    \centering
+    \includegraphics[width=1\textwidth]{Diagramas/DiagramaGantt.JPG}
+    \caption{Gantt del proyecto}
+    \label{fig:gantt}
+\end{figure}
+
+Este apartado presenta una estimación de costes del proyecto desde una perspectiva profesional, considerando recursos humanos, \textit{hardware}, \textit{software} e infraestructura necesarios para su desarrollo.
+
+\subsection{Costes de Personal}
+
+El desarrollo del proyecto ha requerido aproximadamente 800 horas de trabajo distribuidas a lo largo de 30 semanas (25 horas semanales). Considerando una tarifa estándar de desarrollador junior en España de 20 €/hora, el coste de personal asciende a:
+
+\begin{table}[H]
+\centering
+\caption{Desglose de costes de personal por fase}
+\label{tab:costes-personal}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Fase} & \textbf{Horas} & \textbf{Coste (€)} \\ \midrule
+Investigación y planificación & 120 & 2400 \\
+Análisis y diseño & 140 & 2800 \\
+Implementación backend & 180 & 3600 \\
+Implementación Machine Learning & 180 & 3600 \\
+Implementación frontend & 120 & 2400 \\
+Integración y testing & 240 & 4800 \\
+
+\midrule
+\textbf{TOTAL} & \textbf{800} & \textbf{16000} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Costes de Hardware y Software}
+
+\begin{table}[H]
+\centering
+\caption{Costes de hardware, software e infraestructura}
+\label{tab:costes-recursos}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Concepto} & \textbf{Coste Total} & \textbf{Vida Útil} & \textbf{Amortización} \\ \midrule
+\multicolumn{4}{l}{\textit{Hardware}} \\
+\quad Portátil desarrollo (i7, 16GB RAM) & 1200 € & 8 años & 200 € \\
+\quad Periféricos (teclado, ratón) & 100 € & 2 años & 20 € \\
+\midrule
+\multicolumn{4}{l}{\textit{Software}} \\
+\quad Node.js, Express.js, Chart.js & - & - & 0 € \\
+\quad VS Code, Git, LaTeX & - & - & 0 € \\
+\midrule
+\multicolumn{4}{l}{\textit{Infraestructura}} \\
+\quad Internet (40 €/mes × 7.5 meses) & - & - & 300 € \\
+\quad Electricidad (15 €/mes × 7.5 meses) & - & - & 112 € \\
+\quad Backend (Azure ML 60 €/mes) & - & - & 450 € \\
+\quad Frontend (Porkbun 30 €/año) & - & - & 30 € \\
+\midrule
+\multicolumn{4}{l}{\textit{Otros}} \\
+\quad Material de oficina & - & - & 25 € \\
+\quad Impresión y encuadernación & - & - & 75 € \\
+\quad Libros técnicos & - & - & 50 € \\
+\midrule
+\textbf{Subtotal Recursos} & & & \textbf{1262 €} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Nota:} Los costes de hardware se calculan mediante amortización proporcional a la duración del proyecto (7.5 meses). El software utiliza exclusivamente tecnologías \textit{open source} (código abierto), resultando en coste cero.
+
+\subsection{Coste Total del Proyecto}
+
+\begin{table}[H]
+\centering
+\caption{Resumen total de costes}
+\label{tab:costes-total}
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Categoría} & \textbf{Coste (€)} \\ \midrule
+Personal (800 horas × 20 €/h) & 16000 \\
+Hardware  & 220 \\
+Software  & 0 \\
+Infraestructura & 922 \\
+Otros & 150 \\ \midrule
+\textbf{TOTAL PROYECTO} & \textbf{17262 €} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+
+% ============================================================
+% CAPÍTULO 2: ESTADO DEL ARTE
+% ============================================================
+\chapter{Estado del Arte}
+
+\section{Evolución del Análisis Deportivo}
+
+El análisis deportivo ha evolucionado dramáticamente desde sus inicios estadísticos básicos hasta convertirse en una disciplina científica sofisticada que combina ciencias de la computación, estadística avanzada, física y ciencias del deporte.
+
+\subsection{Era Pre-Analítica (1950-1990)}
+
+Durante esta época, el análisis deportivo se limitaba principalmente a estadísticas descriptivas básicas \cite{lewis2003, oliver2004,kubatko2007,hollinger2005}:
+
+\begin{itemize}
+    \item \textbf{Box Score tradicional:} Puntos, rebotes, asistencias, robos y bloqueos por jugador.
+    \item \textbf{Porcentajes de tiro:} Field Goal Percentage (FG\%), Free Throw Percentage (FT\%).
+    \item \textbf{Análisis manual:} Los entrenadores dependían de análisis manual y notas escritas.
+\end{itemize}
+
+Las limitaciones de esta era incluían la falta de contextualización (no se consideraba la calidad de los oponentes, situaciones de juego, etc.) y la imposibilidad de capturar aspectos defensivos cuantificablemente.
+
+\subsection{Era de Métricas Avanzadas (1990-2010)}
+
+La revolución sabermetric del béisbol, popularizada por el libro y película ``Moneyball'' \cite{lewis2003}, inspiró el desarrollo de métricas más sofisticadas en baloncesto \cite{kubatko2007,oliver2004}:
+
+\begin{itemize}
+    \item \textbf{Player Efficiency Rating (PER):}
+Métrica desarrollada por John Hollinger \cite{hollinger2005} que resume la contribución estadística de un jugador en un único número, ajustado por ritmo de juego y minutos jugados:
+\begin{equation}
+PER = \frac{\sum \text{Contribuciones Positivas} - \sum \text{Contribuciones Negativas}}{\text{Minutos}} \times \text{Factor de Ajuste}
+\end{equation}
+
+    \item \textbf{Win Shares:}
+Métrica que estima cuántas victorias contribuyó un jugador a su equipo, separando contribuciones ofensivas y defensivas.
+
+    \item \textbf{Plus-Minus (+/-):}
+Diferencia de puntos cuando un jugador está en cancha, aunque tiene limitaciones por no considerar la calidad de compañeros y oponentes.
+
+    \item \textbf{True Shooting Percentage (TS\%):}
+Porcentaje de tiro que considera el valor diferencial de triples y tiros libres:
+
+\begin{equation}
+TS\% = \frac{\text{Puntos}}{2 \times (\text{FGA} + 0.44 \times \text{FTA})}
+\end{equation}
+
+donde FGA es \textit{Field Goals Attempted} (Tiros de campo intentados) y FTA es \textit{Free Throws Attempted} (Tiros libres intentados).
+\end{itemize}
+
+\subsection{Era de Tracking Data (2010-2020)}
+
+La introducción de tecnologías de tracking óptico revolucionó el análisis deportivo \cite{second-spectrum}:
+
+\begin{itemize}
+    \item \textbf{SportVU (2013) \cite{sportvu2013}:} Sistema de 6 cámaras que captura posiciones de jugadores y balón a 25 Hz, generando datos de:
+    \begin{itemize}
+        \item Velocidad y aceleración de jugadores
+        \item Distancia recorrida y tipos de movimiento
+        \item Espaciado de cancha (floor spacing)
+        \item Touch time (tiempo con el balón)
+        \item Contestación de tiros (shot contests)
+    \end{itemize}
+    
+\end{itemize}
+
+\subsection{Era de Machine Learning (2020-Presente)}
+
+La confluencia de big data, poder computacional y algoritmos avanzados ha permitido el desarrollo de sistemas predictivos sofisticado \cite{synergy-sports}:
+
+\begin{itemize}
+    \item \textbf{Deep Learning para análisis de video:} Redes neuronales convolucionales (CNN) que automatizan el análisis de video identificando jugadas, formaciones y movimientos defensivos \cite{goodfellow2016,lecun2015}.
+    
+    \item \textbf{Reinforcement Learning para estrategia:} Agentes que aprenden estrategias óptimas de juego mediante simulación \cite{silver2016}.
+    
+    \item \textbf{Graph Neural Networks:} Modelado de interacciones entre jugadores como grafos para análisis de química de equipo.
+\end{itemize}
+
+\section{Machine Learning en Análisis NBA}
+
+\subsection{Taxonomía de Problemas}
+
+Los problemas de ML en análisis NBA se pueden clasificar en:
+
+\begin{table}[H]
+\centering
+\caption{Taxonomía de problemas de Machine Learning en análisis NBA}
+\label{tab:ml-taxonomy}
+\begin{tabular}{@{}lllp{4cm}@{}}
+\toprule
+\textbf{Categoría} & \textbf{Tipo} & \textbf{Algoritmos} & \textbf{Aplicaciones} \\ \midrule
+Supervisado & Regresión & Linear Reg, RF, XGBoost & Predicción de puntos, rebotes, asistencias \\
+ & Clasificación & Logistic Reg, SVM, NN & Predicción de victoria, tipo de jugada \\
+No Supervisado & Clustering & K-Means, DBSCAN & Agrupación de estilos de juego \\
+ & Dim. Reduction & PCA, t-SNE & Visualización de similitud entre jugadores \\
+Reinforcement & Q-Learning & DQN, A3C & Optimización de estrategias \\
+Deep Learning & CNN & ResNet, VGG & Análisis de video \\
+ & RNN/LSTM & & Predicción de secuencias de jugadas \\
+ & Transformers & BERT, GPT & Análisis de comentarios \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Feature Engineering en Datos NBA}
+
+La Ingeniería de características es crítica para el éxito de modelos ML en deportes. Las características \cite{kubatko2007, oliver2004,cervone2016,franks2015} se pueden categorizar en:
+
+\subsubsection{Características Individuales}
+
+\begin{itemize}
+    \item \textbf{Estadísticas tradicionales:} Puntos, rebotes, asistencias, robos, bloqueos, pérdidas
+    \item \textbf{Porcentajes de tiro:} FG\%, 3P\%, FT\%, TS\%, eFG\%
+    \item \textbf{Ritmo de juego:} Posesiones por partido, factor de ritmo
+    \item \textbf{Eficiencia:} PER, WS/48, BPM (Box Plus-Minus)
+    \item \textbf{Características físicas:} Altura, peso, alcance, edad, experiencia
+\end{itemize}
+
+\subsubsection{Características Contextuales}
+
+\begin{itemize}
+    \item \textbf{Situacionales:} Cuarto del partido, tiempo restante, tiempos muertos disponibles
+    \item \textbf{Score differential:} Diferencia de puntos actual
+    \item \textbf{Racha:} Victorias/derrotas consecutivas
+    \item \textbf{Localía:} Ventaja de local sobre visitante
+    \item \textbf{Back-to-back:} Días de descanso entre juegos
+    \item \textbf{Temporalidad:} Mes de temporada, pre/post All-Star 
+\end{itemize}
+
+\subsubsection{Características Espaciales}
+
+\begin{itemize}
+    \item \textbf{Posición de tiro:} Coordenadas (x, y) normalizadas en cancha
+    \item \textbf{Distancia al aro}
+    \item \textbf{Zona de cancha:} Bajo el aro, medio rango, linea de tres (esquina/ala/centro)
+    \item \textbf{Defensor más cercano:} Distancia y ángulo
+    \item \textbf{Espacio:} Distribución de jugadores ofensivos y defensivos
+\end{itemize}
+
+\subsubsection{Características de Interacción}
+
+\begin{itemize}
+    \item \textbf{Combinaciones de plantilla:} Rendimiento de quintetos específicos
+    \item \textbf{Historial de enfrentamientos:} Historial contra oponente específico
+    \item \textbf{Impacto de juego:} Diferencial de rendimiento con/sin jugador
+    \item \textbf{Sinergia:} Química entre parejas de jugadores
+\end{itemize}
+
+\subsection{Algoritmos \textit{State-of-the-Art}}
+
+\subsubsection{Gradient Boosting Machines}
+
+XGBoost y LightGBM han demostrado ser altamente efectivos para predicción de rendimiento\cite{chen2016}:
+
+\begin{itemize}
+    \item \textbf{Ventajas:}
+    \begin{itemize}
+        \item Manejo automático de valores perdidos
+        \item Robustez contra \textit{overfitting} (sobreajuste)
+        \item Captura de interacciones complejas entre variables
+        \item Interpretabilidad mediante \textit{feature importance}(peso de características)
+    \end{itemize}
+    
+    
+\end{itemize}
+
+\subsubsection{Random Forest}
+
+Algoritmo \textit{ensemble} (ensamble) que combina múltiples árboles de decisión \cite{breiman2001, liaw2002}:
+
+\begin{equation}
+\hat{y} = \frac{1}{B} \sum_{b=1}^{B} T_b(x)
+\end{equation}
+
+donde $T_b$ es el b-ésimo árbol entrenado en un \textit{bootstrap sample}.
+
+\textbf{Parámetros críticos:}
+\begin{itemize}
+    \item $n_{trees}$: Número de árboles (típicamente 50-500)
+    \item $max_{depth}$: Profundidad máxima (5-15 para datos NBA)
+    \item $min_{samples\_split}$: Mínimo de muestras para dividir nodo (2-10)
+    \item $max_{features}$: Características consideradas en cada sección ($\sqrt{p}$ o $\log_2(p)$)
+\end{itemize}
+
+
+\subsubsection{Deep Neural Networks}
+
+Las redes profundas han mostrado ventajas en problemas con alta dimensionalidad \cite{goodfellow2016, raschka2019}:
+
+\begin{itemize}
+    \item \textbf{Arquitecturas comunes:}
+    \begin{itemize}
+        \item \textit{Feedforward NN}: Para predicción de estadísticas individuales
+        \item CNN: Para análisis de video y detección de jugadas
+        \item LSTM/GRU: Para modelado de secuencias temporales
+        \item \textit{Autoencoders}: Para detección de anomalías y reducción dimensional
+    \end{itemize}
+    
+    \item \textbf{Desafíos específicos NBA:}
+    \begin{itemize}
+        \item \textit{Datasets} relativamente pequeños (500 jugadores, 1200 juegos/año)
+        \item Alta varianza entre temporadas
+        \item Interpretabilidad limitada, a diferencia de métodos tradicionales
+    \end{itemize}
+\end{itemize}
+
+\subsection{Métricas de Evaluación}
+
+La evaluación de modelos ML deportivos requiere métricas específicas del dominio \cite{kohavi1995}:
+
+\subsubsection{Métricas de Regresión}
+
+Para predicción de estadísticas continuas (puntos, rebotes, etc.):
+
+\begin{definition}[Mean Absolute Error (MAE)]
+\begin{equation}
+MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
+\end{equation}
+
+Interpretación directa: error promedio en unidades originales.
+\end{definition}
+
+\begin{definition}[Root Mean Squared Error (RMSE)]
+\begin{equation}
+RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
+\end{equation}
+
+Penaliza más fuertemente errores grandes.
+\end{definition}
+
+\begin{definition}[Coeficiente de Determinación (R²)]
+\begin{equation}
+R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
+\end{equation}
+
+Proporción de varianza explicada por el modelo (0-1, mayor es mejor).
+\end{definition}
+
+\begin{definition}[Mean Absolute Percentage Error (MAPE)]
+\begin{equation}
+MAPE = \frac{100\%}{n} \sum_{i=1}^{n} \left| \frac{y_i - \hat{y}_i}{y_i} \right|
+\end{equation}
+
+Error porcentual relativo, útil para comparar entre diferentes escalas.
+\end{definition}
+
+\subsubsection{Métricas de Clasificación}
+
+Para predicción de outcomes categóricos (victoria/derrota, tipo de jugada):
+
+\begin{definition}[Accuracy]
+\begin{equation}
+Accuracy = \frac{TP + TN}{TP + TN + FP + FN}
+\end{equation}
+
+Proporción de predicciones correctas. Puede ser engañosa con clases desbalanceadas.
+\end{definition}
+
+\begin{definition}[Precision y Recall]
+\begin{equation}
+Precision = \frac{TP}{TP + FP}, \quad Recall = \frac{TP}{TP + FN}
+\end{equation}
+
+Precision: De las predicciones positivas, cuántas son correctas.
+Recall: De los positivos reales, cuántos detectamos.
+\end{definition}
+
+\begin{definition}[F1-Score]
+\begin{equation}
+F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}
+\end{equation}
+
+Media armónica que balancea precision y recall.
+\end{definition}
+
+\begin{definition}[ROC-AUC]
+Área bajo la curva ROC (Receiver Operating Characteristic), mide la capacidad del modelo de discriminar entre clases independientemente del threshold (0.5-1.0, mayor es mejor).
+\end{definition}
+
+\subsubsection{Métricas Específicas NBA}
+
+\begin{definition}[Expected Prediction Error (EPE)]
+Error ajustado por dificultad de predicción, considerando varianza histórica de la estadística:
+
+\begin{equation}
+EPE = \frac{|y_i - \hat{y}_i|}{\sigma_{historical}}
+\end{equation}
+
+donde $\sigma_{historical}$ es la desviación estándar histórica de la estadística.
+\end{definition}
+
+\begin{definition}[Clutch Accuracy]
+Accuracy específica para situaciones clutch (últimos 5 minutos con diferencia < 5 puntos), donde la precisión es más crítica.
+\end{definition}
+
+\section{Trabajos Relacionados}
+
+\subsection{Sistemas Comerciales}
+
+\subsubsection{Synergy Sports Technology}
+
+Plataforma líder utilizada por más de 400 equipos profesionales y colegiales\cite{synergy-sports}:
+
+\textbf{Características principales:}
+\begin{itemize}
+    \item Video desglose automático de cada posesión
+    \item Clasificación de jugadas en ~90 categorías
+    \item Estadísticas por tipo de jugada (\textit{P\&R ball handler, spot-up, etc.})
+    \item Gráficas de tiro avanzadas con filtros múltiples
+\end{itemize}
+
+\textbf{Limitaciones:}
+\begin{itemize}
+    \item Costo: 10.000\$-50.000\$/año según suscripción
+    \item Requiere suscripción anual
+    \item No permite acceso a modelos ML subyacentes
+    \item API limitada para desarrolladores
+\end{itemize}
+
+\subsubsection{Second Spectrum (Genius Sports)}
+
+Sistema de tracking oficial de la NBA desde 2017 \cite{second-spectrum}:
+
+\textbf{Capacidades avanzadas:}
+\begin{itemize}
+    \item \textit{Tracking} 3D a 60 FPS de todos los jugadores y balón
+    \item Detección automática de eventos (pases, tiros, cortes)
+    \item Probabilidades de tiro en tiempo real
+    \item Defensores fantasma y tendencias defensivas
+    \item Generación automática de \textit{highlights} (momentos importantes)
+\end{itemize}
+
+\textbf{Capacidades ML:}
+\begin{itemize}
+    \item CNN para detección de jugadores y balón
+    \item LSTM para predicción de trayectorias
+\end{itemize}
+
+\subsection{Posicionamiento de NBA Analytics Pro}
+
+Nuestro sistema se diferencia de los existentes en varios aspectos clave:
+
+\begin{enumerate}
+    \item \textbf{Accesibilidad total:} Código abierto y basado en web, sin barreras de entrada económicas o técnicas.
+        
+    \item \textbf{Integración completa:} Unifica procesamiento de datos, ML, visualización e interfaz en una plataforma coherente.
+    
+    \item \textbf{Predicción contextual:} Sistema de predicción de jugadas considerando múltiples variables situacionales, similar a EPV pero más interpretable.
+    
+    \item \textbf{Modularidad:} Arquitectura extensible que facilita añadir nuevos algoritmos, fuentes de datos y visualizaciones.
+\end{enumerate}
+
+\newpage
+
+\section{Huecos y Oportunidades}
+
+A pesar de los avances significativos, persisten huecos importantes:
+
+\subsection{Huecos Identificados}
+
+\begin{itemize}
+    \item \textbf{Accesibilidad:} Herramientas profesionales son prohibitivamente caras para usuarios individuales, mientras que soluciones académicas requieren manejo técnico avanzado.
+    
+    \item \textbf{Interpretabilidad vs Precisión:} Modelos \textit{deep learning} sacrifican interpretabilidad por precisión marginal. Se necesitan métodos que balanceen ambos aspectos.
+          
+    \item \textbf{Explicabilidad:} Falta de entornos para explicar predicciones ML a partes interesadas no expertas en ML (entrenadores, jugadores, fans).
+    
+    \item \textbf{Evaluación contextual:} Métricas estándar no capturan adecuadamente la utilidad práctica de predicciones en contextos específicos.
+\end{itemize}
+
+\subsection{Oportunidades de Investigación}
+
+\begin{itemize}
+    \item \textbf{Trasferencia de aprendizaje deportivo:} Aplicar conocimiento de una liga/deporte a otra.
+    
+    \item \textbf{Inferencia causal:} Ir más allá de correlaciones para identificar relaciones causales entre variables.
+    
+    \item \textbf{Refuerzo de aprendizaje:} Agentes que aprendan estrategias óptimas de juego mediante simulación.
+    
+    \item \textbf{Meta-aprendizaje:} Modelos que se adapten rápidamente a nuevos jugadores y situaciones con pocos datos.
+    
+    \item \textbf{Equidad y parcialidad:} Asegurar que modelos ML no perpetúen sesgos históricos en evaluación de jugadores.
+\end{itemize}
+
+% ============================================================
+% CAPÍTULO 3: ANÁLISIS Y DISEÑO DEL SISTEMA
+% ============================================================
+\chapter{Análisis y Diseño del Sistema}
+
+\section{Introducción}
+
+Este capítulo presenta el análisis detallado de requisitos y el diseño arquitectónico del sistema NBA Analytics Pro. Se documentan los requisitos funcionales y no funcionales, casos de uso principales, arquitectura del sistema y decisiones de diseño críticas que fundamentan la implementación.
+
+\section{Análisis de Requisitos}
+
+\subsection{Requisitos Funcionales}
+
+Los requisitos funcionales definen las capacidades específicas que debe proporcionar el sistema:
+
+\subsubsection{RF-1: Gestión de Datos}
+
+\begin{itemize}
+    \item El sistema debe cargar y procesar archivos CSV en formato NBA \textit{play-by-play} con hasta más de 5 millones de registros.
+    \item Debe detectar y eliminar registros duplicados basándose en identificadores únicos compuestos.
+    \item Debe validar integridad identificando valores faltantes, inconsistencias y anomalías estadísticas.
+    \item Debe procesar los datos agrupándolos por jugador calculando estadísticas acumulativas y métricas avanzadas.
+\end{itemize}
+
+\subsubsection{RF-2: Análisis de Jugadores}
+
+\begin{itemize}
+    \item El sistema debe permitir búsqueda de jugadores por nombre, equipo o identificador único.
+    \item Debe mostrar estadísticas detalladas incluyendo: puntos/rebotes/asistencias promedio, porcentajes de tiro (FG\%, 3P\%, FT\%, TS\%, eFG\%), número de partidos jugados y eficiencia general (PER).
+    \item Debe generar seis tipos de visualizaciones gráficas interactivas: distribución de tipos de tiro, porcentajes de éxito, tendencias temporales, comparaciones vs promedios NBA, mapas de tiros en cancha y eficiencia por cuartos.
+\end{itemize}
+
+\subsubsection{RF-3: Comparación de Jugadores}
+
+\begin{itemize}
+    \item El sistema debe permitir seleccionar de 2 a 4 jugadores para comparación simultánea.
+    \item Debe mostrar comparaciones multi-dimensionales mediante gráficos radar, tablas comparativas y mapas de calor diferencial.
+    \item Debe calcular y mostrar diferencias porcentuales entre jugadores en todas las métricas relevantes.
+\end{itemize}
+
+\subsubsection{RF-4: Predicciones con Machine Learning}
+
+\begin{itemize}
+    \item El sistema debe entrenar modelos Random Forest con datos históricos de jugadores.
+    \item Debe realizar predicciones contextuales considerando: cuarto del partido, tiempo restante, diferencia de puntos, posición en cancha e historial del jugador.
+    \item Debe clasificar predicciones en categorías: tiros de 2 puntos, triples, tiros libres, asistencias y rebotes.
+    \item Debe proporcionar probabilidades asociadas a cada predicción con intervalos de confianza.
+    \item Debe generar \textit{\textit{insights}}(Conocimientos) automáticos basados en el contexto específico del juego.
+\end{itemize}
+
+\subsection{Requisitos No Funcionales}
+
+\subsubsection{RNF-1: Rendimiento}
+
+\begin{itemize}
+    \item Las consultas de estadísticas deben responder en menos de 200ms.
+    \item Las predicciones contextuales deben generarse en menos de 500ms.
+    \item La interfaz web debe mantener 60 FPS durante animaciones.
+    \item Debe mantener un caché en memoria optimizado para consultas frecuentes con acceso O(1).
+\end{itemize}
+
+\subsubsection{RNF-2: Escalabilidad}
+
+\begin{itemize}
+    \item El sistema debe soportar \textit{dataset} de hasta 5 millones de registros sin degradación significativa.
+\end{itemize}
+
+\subsubsection{RNF-3: Usabilidad}
+
+\begin{itemize}
+    \item La interfaz debe ser intuitiva y utilizable sin manual de usuario.
+    \item Debe proporcionar retroalimentación visual en todas las operaciones (simbolos de carga, Barras de progreso).
+    \item Todos los gráficos deben ser interactivos con leyendas informativas.
+    \item Debe ser responsiva y funcional en dispositivos móviles (resolución mínima 360px).
+    \item El sistema debe funcionar en navegadores modernos (Chrome, Firefox, Safari, Edge en versiones recientes).
+\end{itemize}
+
+\subsubsection{RNF-4: Mantenibilidad}
+
+\begin{itemize}
+    \item El código debe seguir estándares modernos con documentación completa.
+    \item La arquitectura debe ser modular con separación clara de responsabilidades.
+\end{itemize}
+
+\subsubsection{RNF-5: Seguridad}
+
+\begin{itemize}
+    \item El sistema debe validar y sanitizar todos los entradas del usuario.
+    \item Las APIs deben implementar \textit{rate limiting} a 5 peticiones/minuto por IP para prevenir abuso.
+    \item Los datos deben transmitirse mediante HTTPS en producción.
+\end{itemize}
+
+\newpage
+
+\section{Casos de Uso}
+
+\subsection{Actores del Sistema}
+
+\begin{table}[H]
+\centering
+\caption{Actores del sistema NBA Analytics Pro}
+\label{tab:actors}
+\begin{tabular}{@{}lp{10cm}@{}}
+\toprule
+\textbf{Actor} & \textbf{Descripción} \\ \midrule
+Usuario & Persona interesada en análisis NBA (aficionado, analista amateur, estudiante) \\
+Analista Deportivo & Profesional que necesita \textit{insights} avanzados para evaluaciones tácticas \\
+Investigador & Académico o científico de datos investigando aplicaciones ML en deportes \\
+Sistema ML & Componente automatizado que entrena y ejecuta modelos predictivos \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\subsection{Diagrama de Casos de Uso}
+
+\begin{figure}[h]   
+    \centering
+    \includegraphics[width=0.8\textwidth]{Diagramas/Diagrama sin título.drawio.png}
+    \caption{Diagrama de casos de uso del sistema NBA Analytics Pro}
+    \label{fig:use-case-diagram}
+\end{figure}
+
+\subsection{Especificación de Casos de Uso Principales}
+
+\subsubsection{CU-01: Analizar Rendimiento de Jugador}
+
+\begin{figure}[H]    
+    \centering
+    \includegraphics[width=0.8\textwidth]{Diagramas/CU1.drawio.png}
+    \caption{Diagrama de Caso de Uso 01 - Analizar Rendimiento de Jugador}
+    \label{fig:use-case1-diagram}
+\end{figure}
+
+\newpage
+
+\begin{table}[H]
+\centering
+\caption{Caso de Uso 01 - Analizar Rendimiento de Jugador}
+\label{tab:cu01}
+\small
+\begin{tabular}{@{}p{4cm}p{10cm}@{}}
+\toprule
+\textbf{Campo} & \textbf{Descripción} \\ \midrule
+\textbf{ID} & CU-01 \\
+\textbf{Nombre} & Analizar Rendimiento de Jugador \\
+\textbf{Actor Principal} & Usuario \\
+\textbf{Precondiciones} & Datos CSV cargados exitosamente, Sistema inicializado \\
+\textbf{Postcondiciones} & Estadísticas detalladas mostradas, Gráficos de rendimiento generados \\
+\textbf{Flujo Principal} & 
+\begin{enumerate}
+    \item Usuario navega a sección de análisis
+    \item Usuario busca jugador por nombre
+    \item Sistema muestra coincidencias
+    \item Usuario selecciona jugador
+    \item Sistema genera visualizaciones interactivas
+    \item Usuario explora métricas y gráficos
+\end{enumerate} \\
+\textbf{Flujos Alternativos} & 
+\textbf{FA-01:} Jugador no encontrado - Sistema muestra mensaje y sugiere búsquedas alternativas \\
+& \textbf{FA-02:} Error en datos - Sistema notifica y permite selección de otro jugador \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{CU-02: Comparar Múltiples Jugadores}
+
+\begin{figure}[H]    
+    \centering
+    \includegraphics[width=0.8\textwidth]{Diagramas/CU2.drawio.png}
+    \caption{Diagrama de Caso de Uso 02 - Comparar Múltiples Jugadores}
+    \label{fig:use-case2-diagram}
+\end{figure}
+
+\newpage
+
+\begin{table}[H]
+\centering
+\caption{Caso de Uso 02 - Comparar Múltiples Jugadores}
+\label{tab:cu02}
+\small
+\begin{tabular}{@{}p{4cm}p{10cm}@{}}
+\toprule
+\textbf{Campo} & \textbf{Descripción} \\ \midrule
+\textbf{ID} & CU-02 \\
+\textbf{Nombre} & Comparar Múltiples Jugadores \\
+\textbf{Actor Principal} & Usuario Final, Analista Deportivo \\
+\textbf{Precondiciones} & Datos procesados disponibles, Mínimo 2 jugadores seleccionables \\
+\textbf{Postcondiciones} & Comparación multi-dimensional generada, Diferencias calculadas \\
+\textbf{Flujo Principal} & 
+\begin{enumerate}
+    \item Usuario navega a comparación
+    \item Usuario selecciona jugadores (2-4)
+    \item Sistema valida compatibilidad
+    \item Sistema genera visualizaciones comparativas
+    \item Sistema calcula diferencias porcentuales
+    \item Usuario explora métricas y gráficos
+    \item Sistema actualiza comparación en tiempo real
+\end{enumerate} \\
+\textbf{Flujos Alternativos} & 
+\textbf{FA-01:} Jugadores incomparables - Sistema advierte diferencias posicionales extremas \\
+\textbf{Requisitos Especiales} & Máximo 4 jugadores, Paleta distintiva, Exportable como imagen \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{CU-03: Predecir Jugada Contextual}
+
+\begin{figure}[H]    
+    \centering
+    \includegraphics[width=0.8\textwidth]{Diagramas/CU-3.drawio (1).png}
+    \caption{Diagrama de Caso de Uso 03 - Predecir Jugada Contextual}
+    \label{fig:use-case3-diagram}
+\end{figure}
+
+\newpage
+
+\begin{table}[H]
+\centering
+\caption{Caso de Uso 03 - Predecir Jugada Contextual}
+\label{tab:cu04}
+\small
+\begin{tabular}{@{}p{4cm}p{10cm}@{}}
+\toprule
+\textbf{Campo} & \textbf{Descripción} \\ \midrule
+\textbf{ID} & CU-03 \\
+\textbf{Nombre} & Predecir Jugada Contextual \\
+\textbf{Actor Principal} & Analista Deportivo, Usuario Avanzado \\
+\textbf{Precondiciones} & Modelo ML entrenado, Jugador seleccionado \\
+\textbf{Postcondiciones} & Probabilidades calculadas, \textit{insights} generados, Recomendaciones mostradas \\
+\textbf{Flujo Principal} & 
+\begin{enumerate}
+    \item Usuario selecciona jugador
+    \item Usuario introduce contexto (cuarto, tiempo, score, posición)
+    \item Usuario solicita predicción
+    \item Sistema valida contexto
+    \item Sistema extrae características contextuales
+    \item Sistema ejecuta inferencia ML
+    \item Sistema calcula probabilidades
+    \item Sistema genera \textit{insights} y recomendaciones
+    \item Sistema muestra predicciones ordenadas
+\end{enumerate} \\
+\textbf{Flujos Alternativos} & 
+\textbf{FA-01:} Contexto inválido - Sistema resalta errores y solicita corrección \\
+& \textbf{FA-02:} Datos insuficientes - Sistema usa promedios posicionales y advierte baja confianza \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\section{Arquitectura del Sistema}
+
+\subsection{Patrón Arquitectónico}
+
+NBA Analytics Pro implementa una arquitectura Cliente-Servidor con Modelo de Tres Capas que separa responsabilidades y facilita mantenibilidad:
+
+\begin{enumerate}
+    \item \textbf{Capa de Presentación (Frontend):} Interfaz web interactiva construida con HTML5, CSS3 y JavaScript que maneja toda la interacción con el usuario.
+    
+    \item \textbf{Capa de Lógica de Negocio (Backend):} Servidor Node.js con Express que procesa datos, gestiona estadísticas y ejecuta algoritmos ML.
+    
+    \item \textbf{Capa de Datos:} Archivos CSV procesados y estructuras de datos optimizadas cacheadas en memoria para acceso rápido.
+\end{enumerate}
+
+Esta arquitectura permite que cada capa evolucione independientemente, facilita testing unitario de componentes aislados y optimiza el rendimiento mediante caché inteligente.
+
+
+\subsection{Diagrama de Arquitectura General}
+
+% Espacio para diagrama de arquitectura
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Diagramas/Arquitectura.png}
+    \caption{Arquitectura general del sistema NBA Analytics Pro}
+    \label{fig:architecture}
+\end{figure}
+
+\section{Diagramas de Secuencia}
+
+% Espacio para diagrama de secuencia CU-01
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Diagramas/SecuenciaCU1.png}
+    \caption{Diagrama de secuencia - Analizar rendimiento de jugador}
+    \label{fig:seq-cu01}
+\end{figure}
+
+\newpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Diagramas/SecuenciaCU2.png}
+    \caption{Diagrama de secuencia - Comparar Múltiples Jugadores}
+    \label{fig:seq-cu02}
+\end{figure}
+
+% Espacio para diagrama de secuencia CU-03
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Diagramas/SecuenciaCU3.png}
+    \caption{Diagrama de secuencia - Predecir jugada contextual}
+    \label{fig:seq-cu03}
+\end{figure}
+\newpage
+
+\subsection{API RESTful}
+
+El backend expone una API REST que facilita comunicación entre capas:
+
+\begin{table}[H]
+\centering
+\caption{Endpoints principales de la API REST}
+\label{tab:api-endpoints}
+\small
+\begin{tabular}{@{}llp{6cm}@{}}
+\toprule
+\textbf{Método} & \textbf{Endpoint} & \textbf{Descripción} \\ \midrule
+GET & /api/health & Estado del servidor y confirmación de datos cargados \\
+GET & /api/players & Lista completa de jugadores con estadísticas básicas \\
+GET & /api/players/:name & Estadísticas detalladas de jugador específico \\
+GET & /api/data/stats & Estadísticas agregadas del dataset completo \\
+POST & /api/ml/train & Entrenar modelo Random Forest con configuración \\
+POST & /api/ml/predict & Generar predicción contextual de jugada \\
+GET & /api/ml/metrics & Métricas de rendimiento del modelo entrenado \\
+GET & /api/shots/:playerId & Datos geográficos de tiros para mapa de cancha \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Características de la API:}
+\begin{itemize}
+    \item \textbf{Diseño RESTful:} Sigue principios REST con métodos HTTP semánticos y códigos de estado apropiados.
+    \item \textbf{Respuestas JSON:} Todos los \textit{endpoints} devuelven datos estructurados en formato JSON estandarizado.
+    \item \textbf{Manejo de errores:} Códigos HTTP descriptivos (404, 400, 500) con mensajes de error informativos.
+    \item \textbf{CORS configurado:} Permite peticiones \textit{cross-origin} desde \textit{frontend} con encabezados apropiados.
+    \item \textbf{Rate limiting:} \textit{Endpoints} ML limitados a 5 peticiones/minuto por IP para prevenir abuso.
+\end{itemize}
+
+\subsection{Flujo de Datos}
+
+El sistema procesa información siguiendo flujos optimizados:
+
+\textbf{Flujo de carga inicial:}
+\begin{enumerate}
+    \item Servidor recibe archivos CSV elegidos por el usuario o el que proporciona el sistema.
+    \item \textit{Parser} procesa registros línea por línea validando formato y tipos de datos.
+    \item Deduplicador elimina registros duplicados basándose en claves únicas compuestas.
+    \item Agregador calcula estadísticas por jugador acumulando totales y computando métricas derivadas.
+    \item Sistema construye índices \textit{Map} y \textit{arrays} ordenados para consultas rápidas.
+    \item Caché se marca como listo y servidor comienza a aceptar peticiones HTTP.
+\end{enumerate}
+
+\textbf{Flujo de consulta de estadísticas:}
+\begin{enumerate}
+    \item Usuario introduce nombre de jugador en campo de búsqueda del \textit{frontend}.
+    \item \textit{Frontend} envía petición GET al \textit{endpoint} correspondiente con nombre codificado.
+    \item \textit{Backend} busca jugador en caché \textit{Map} con complejidad O(1).
+    \item Si existe, \textit{backend} devuelve objeto JSON con estadísticas completas.
+    \item \textit{Frontend} recibe datos y genera seis gráficos interactivos mediante Chart.js.
+    \item Visualizaciones se renderizan con animaciones suaves y leyendas informativas.
+\end{enumerate}
+
+\textbf{Flujo de entrenamiento ML:}
+\begin{enumerate}
+    \item Motor ML extrae características relevantes de datos \textit{play-by-play} crudos.
+    \item Sistema divide datos en conjuntos entrenamiento (80\%) y test (20\%) aleatoriamente.
+    \item \textit{Random Forest} se entrena mediante \textit{bootstrap aggregating} de múltiples árboles.
+    \item Modelo se evalúa en test set calculando métricas MAE, RMSE, R², accuracy.
+    \item \textit{Backend} devuelve métricas y guarda modelo en caché para predicciones futuras.
+\end{enumerate}
+
+\textbf{Flujo de predicción contextual:}
+\begin{enumerate}
+    \item Usuario selecciona jugador e introduce contexto de juego (cuarto, tiempo, Diferencia de puntos, posición).
+    \item \textit{Frontend} valida la entrada y envía POST al servicio de predicción.
+    \item \textit{Backend} extrae características contextuales combinando contexto con estadísticas históricas del jugador.
+    \item Modelo entrenado ejecuta inferencia sobre vector de características.
+    \item Sistema calcula probabilidades para cada tipo de jugada posible.
+    \item Generador de \textit{insights} analiza probabilidades y contexto produciendo recomendaciones.
+    \item \textit{Backend} retorna predicciones ordenadas por probabilidad con \textit{insights} textuales.
+\end{enumerate}
+
+\newpage
+
+\section{Modelo de Datos}
+
+El sistema maneja dos tipos de entidades de datos estructuradas:
+
+\subsection{Descripción del Dataset}
+
+Para el desarrollo y validación de NBA Analytics Pro se utilizó el \textit{dataset} público ``NBA Play-by-Play Data (1997-2023)'' disponible en Kaggle \cite{kaggle-pbp-dataset}, creado por Szymon Jóźwiak.
+
+\subsubsection{Temporadas Utilizadas}
+
+Para este TFG se utilizaron específicamente las dos temporadas más recientes disponibles:
+
+\begin{itemize}
+    \item \textbf{Temporada 2021-22} 
+    \item \textbf{Temporada 2022-23}
+\end{itemize}
+
+\textbf{Justificación de la selección:}
+\begin{enumerate}
+    \item \textbf{Relevancia temporal:} Datos recientes reflejan la situación actual de la NBA
+    \item \textbf{Calidad de datos:} Temporadas recientes incluyen coordenadas espaciales (x, y) para análisis avanzado
+    \item \textbf{Eficiencia computacional:} Dos temporadas completas permiten desarrollo ágil manteniendo representatividad estadística
+    \item \textbf{Completitud:} 100\% de cobertura de partidos de temporada regular (1,230 partidos × 2 temporadas)
+\end{enumerate}
+
+\subsubsection{Estructura de los Datos}
+
+\begin{table}[H]
+\centering
+\caption{Estadísticas del dataset utilizado (Temporadas 22-23)}
+\label{tab:dataset-stats}
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Métrica} & \textbf{Valor} \\ \midrule
+\textbf{Temporadas} & 2 (2021-22, 2022-23) \\
+\textbf{Partidos totales} & 2,460 (1,230 por temporada) \\
+\textbf{Equipos} & 30 equipos NBA \\
+\textbf{Jugadores únicos} & ~800 jugadores \\
+\textbf{Registros play-by-play} & ~+1,000,000 eventos \\
+\textbf{Tamaño en disco} & ~650 MB (CSV comprimido) \\
+\textbf{Tamaño descomprimido} & ~2.1 GB \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\subsubsection{Esquema del Dataset}
+
+El dataset contiene 16 columnas por cada evento \textit{play-by-play}:
+
+\begin{table}[H]
+\centering
+\caption{Esquema completo del dataset NBA}
+\label{tab:dataset-schema}
+\begin{tabular}{@{}llp{8.5cm}@{}}
+\toprule
+\textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\ \midrule
+\texttt{gameid} & String & Identificador único del partido (formato: YYYYMMDD\_TEAM1vsTEAM2) \\
+\texttt{period} & Integer & Cuarto del partido (1-4 para regulares, 5+ para overtimes) \\
+\texttt{clock} & String & Tiempo restante en el periodo (formato MM:SS) \\
+\texttt{h\_pts} & Integer & Puntos acumulados del equipo local (home) \\
+\texttt{a\_pts} & Integer & Puntos acumulados del equipo visitante (away) \\
+\texttt{team} & String & Abreviatura del equipo ejecutando la acción (ej: LAL, GSW) \\
+\texttt{playerid} & Integer & ID único del jugador \\
+\texttt{player} & String & Nombre completo del jugador \\
+\texttt{type} & String & Tipo de evento principal (shot, foul, rebound, turnover, etc.) \\
+\texttt{subtype} & String & Subtipo específico del evento (layup, 3-pointer, block, steal, etc.) \\
+\texttt{result} & String & Resultado del evento (made, missed, null para no aplicable) \\
+\texttt{x} & Float & Coordenada X de la cancha  \\
+\texttt{y} & Float & Coordenada Y de la cancha  \\
+\texttt{dist} & Float & Distancia del tiro al aro (en pies, null para no-tiros) \\
+\texttt{desc} & String & Descripción textual completa del evento \\
+\texttt{season} & Integer & Temporada NBA (22 para 2021-22, 23 para 2022-23) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\subsubsection{Tipos de Eventos}
+
+El campo \texttt{type} puede contener los siguientes valores principales:
+
+\begin{table}[H]
+\centering
+\caption{Tipos de eventos en el dataset}
+\label{tab:event-types}
+\begin{tabular}{@{}lrp{7cm}@{}}
+\toprule
+\textbf{Tipo de Evento} & \textbf{Aprox. \%} & \textbf{Descripción} \\ \midrule
+\texttt{shot} & 55\% & Tiros de campo (2pt, 3pt, layups, dunks) \\
+\texttt{foul} & 20\% & Faltas personales, técnicas, flagrantes \\
+\texttt{rebound} & 15\% & Rebotes ofensivos y defensivos \\
+\texttt{turnover} & 10\% & Pérdidas de balón (travels, steals, etc.) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Preprocesamiento de Datos}
+
+Para adaptar los datos del \textit{dataset} a las necesidades del sistema, se aplicaron los siguientes pasos:
+
+\subsubsection{Limpieza de Datos}
+
+\begin{enumerate}
+    
+    \item \textbf{Tratamiento de valores nulos:}
+    \begin{itemize}
+        \item Campo \texttt{playerid}: Se eliminaron eventos sin jugador asociado
+        \item Campos \texttt{x}, \texttt{y}: Se imputaron valores medios para eventos sin coordenadas (<2\%)
+        \item Campo \texttt{dist}: Se calculó distancia euclidiana desde (x,y) al aro cuando faltaba
+    \end{itemize}
+    
+    \item \textbf{Normalización de nombres:}
+    \begin{itemize}
+        \item Unificación de abreviaturas de equipos (ej: ``LA Lakers'' → ``LAL'')
+        \item Corrección de caracteres especiales en nombres de jugadores
+        \item Resolución de duplicados (mismo jugador, diferentes grafías)
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Validación del Dataset}
+
+Para verificar la calidad de los datos, se compararon estadísticas agregadas con fuentes oficiales:
+
+\begin{table}[H]
+\centering
+\caption{Validación de estadísticas agregadas vs NBA.com}
+\label{tab:dataset-validation}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Métrica} & \textbf{NBA.com} & \textbf{Dataset} & \textbf{Error \%} \\ \midrule
+PPG (LeBron James 22-23) & 28.9 & 28.7 & -0.7\% \\
+FG\% (Stephen Curry 22-23) & 49.3\% & 49.1\% & -0.4\% \\
+3P\% (Damian Lillard 22-23) & 37.1\% & 37.3\% & +0.5\% \\
+Partidos jugados & 1,230 & 1,230 & 0.0\% \\
+Total puntos temporada & 268,490 & 267,850 & -0.2\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Conclusión:} El dataset presenta discrepancias mínimas ($<1\%$) respecto a fuentes oficiales NBA \cite{nba-stats-api}, validando su idoneidad para entrenamiento de modelos de Machine Learning.
+
+\subsubsection{Archivos del Dataset Utilizados}
+
+\begin{table}[H]
+\centering
+\caption{Archivos CSV procesados del dataset}
+\label{tab:dataset-files}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Archivo} & \textbf{Tamaño} & \textbf{Registros} \\ \midrule
+\texttt{nba\_pbp\_season\_22.csv} & 1.05 GB & ~640,000 \\
+\texttt{nba\_pbp\_season\_23.csv} & 1.08 GB & ~680,000 \\
+\midrule
+\textbf{Total raw} & \textbf{2.13 GB} & \textbf{~1,320,000} \\
+\textbf{Tras limpieza} & \textbf{1.80 GB} & \textbf{~1,150,000} \\
+\textbf{Estadísticas agregadas} & \textbf{2.5 MB} & \textbf{~1,100} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Nota:} El archivo de estadísticas agregadas contiene métricas por jugador calculadas mediante el proceso de preprocesamiento, reduciendo drásticamente el tamaño de datos cargados en memoria para el frontend (de 2.13 GB a 2.5 MB).
+
+\subsubsection{MLModel - Modelo Entrenado}
+
+Representa un modelo de Machine Learning entrenado con metadatos completos:
+
+\begin{table}[H]
+\centering
+\caption{Componentes de la entidad MLModel}
+\label{tab:mlmodel-entity}
+\small
+\begin{tabular}{@{}lp{9cm}@{}}
+\toprule
+\textbf{Componente} & \textbf{Contenido} \\ \midrule
+Identificación & modelId, algorithm (RandomForest/DecisionTree), version \\
+Hiperparámetros & n\_estimators, max\_depth, min\_samples\_split, max\_features \\
+Metadata entrenamiento & trainedAt (timestamp), trainingSize, testSize, features (lista de características utilizadas) \\
+Métricas rendimiento & accuracy, precision, recall, f1Score, mae, rmse, r2 \\
+Estructura modelo & trees (array de árboles de decisión entrenados) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Decisiones de Diseño}
+
+\subsection{Implementación Nativa de Machine Learning}
+
+\textbf{Decisión:} Implementar algoritmos \textit{Random Forest} y \textit{Decision Trees} desde cero en JavaScript sin usar bibliotecas ML externas especializadas.
+
+\textbf{Justificación:}
+\begin{itemize}
+    \item \textbf{Propósito educativo:} Permite comprender profundamente el funcionamiento interno de los algoritmos.
+    \item \textbf{Control total:} Facilita depuración, optimización específica y adaptación a necesidades del proyecto.
+    \item \textbf{Portabilidad:} Elimina dependencias pesadas, funciona en cualquier entorno JavaScript moderno.
+\end{itemize}
+
+\textbf{Compromisos aceptados:}
+\begin{itemize}
+    \item Rendimiento inferior a bibliotecas optimizadas en C/C++ (diferencia aceptable para datasets de tamaño medio).
+    \item Mayor esfuerzo de desarrollo e implementación de algoritmos complejos.
+    \item Limitación a algoritmos ejecutables en tiempo razonable (descarta deep learning).
+\end{itemize}
+
+\subsection{Procesamiento en Memoria vs Base de Datos}
+
+\textbf{Decisión:} Procesar y cachear todos los datos en estructuras JavaScript en memoria RAM en lugar de utilizar sistema de base de datos SQL o NoSQL.
+
+\textbf{Justificación:}
+\begin{itemize}
+    \item \textbf{Rendimiento excepcional:} Acceso O(1) a estadísticas mediante estructuras \textit{Map}.
+    \item \textbf{Simplicidad arquitectónica:} Elimina necesidad de servidor de base de datos adicional.
+    \item  \textbf{Variedad de datos:} El usuario puede aportar sus propios datos de distintas temporadas.
+    \item \textbf{Tamaño manejable:} Datasets de 1-2 millones de registros ocupan <500 MB RAM en hardware moderno.
+    \item \textbf{Desarrollo ágil:} Evita complejidad de consultas SQL y ORM.
+\end{itemize}
+
+\textbf{Limitaciones conocidas:}
+\begin{itemize}
+    \item Sin persistencia: Datos se recargan en cada reinicio del servidor.
+    \item Escalabilidad limitada: No viable para \textit{datasets} superiores a 10 millones de registros.
+    \item \textit{Single-node}: Dificulta escalado horizontal a múltiples servidores.
+\end{itemize}
+
+% ============================================================
+% CAPÍTULO 4: IMPLEMENTACIÓN
+% ============================================================
+\chapter{Implementación}
+
+\section{Introducción}
+
+Este capítulo describe los aspectos técnicos clave de la implementación de NBA Analytics Pro, centrándose en las tecnologías utilizadas \cite{nodejs, express, csv-npm, cors-npm,chartjs, mdn-fetch, mdn-javascript}, estructura del código, componentes críticos y optimizaciones aplicadas.
+
+\section{Stack Tecnológico}
+
+\subsection{Backend}
+
+\begin{table}[H]
+\centering
+\caption{Tecnologías del backend}
+\label{tab:backend-tech}
+\begin{tabular}{@{}llp{7cm}@{}}
+\toprule
+\textbf{Tecnología} & \textbf{Versión} & \textbf{Propósito} \\ \midrule
+Node.js & 18.x & Runtime JavaScript del servidor \\
+Express & 4.18.x & Framework web y routing de API \\
+csv-parser & 3.0.x & Parsing eficiente de archivos CSV \\
+cors & 2.8.x & Manejo de CORS para API REST \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Frontend}
+
+\begin{table}[H]
+\centering
+\caption{Tecnologías del frontend}
+\label{tab:frontend-tech}
+\begin{tabular}{@{}llp{7cm}@{}}
+\toprule
+\textbf{Tecnología} & \textbf{Versión} & \textbf{Propósito} \\ \midrule
+HTML5 & - & Estructura semántica de la aplicación \\
+CSS3 & - & Estilos y diseño responsive \\
+JavaScript ES6+ & - & Lógica de aplicación y ML \\
+Chart.js & 4.4.x & Visualizaciones interactivas \\
+Fetch API & - & Comunicación asíncrona con backend \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\section{Estructura del Proyecto}
+
+El proyecto se organiza en una estructura modular que separa claramente las responsabilidades:
+
+\begin{itemize}
+    \item \textbf{Directorio raíz:} Contiene el servidor principal (\texttt{server-csv.js}) que gestiona todas las peticiones HTTP y coordina el procesamiento de datos.
+    
+    \item \textbf{Directorio src/ml/:} Alberga el motor de Machine Learning (\texttt{nba\_ml\_engine.js}) con las implementaciones de \textit{Random Forest} y \textit{Decision Trees} completamente aisladas del resto del sistema.
+    
+    \item \textbf{Directorio public/:} Contiene la aplicación web cliente con la interfaz HTML principal y subdirectorios para scripts JavaScript organizados por funcionalidad (API client, lógica de aplicación, generación de gráficos).
+    
+    \item \textbf{Directorio data/:} Almacena los archivos CSV \textit{play-by-play} originales que contienen más de 600,000 registros por temporada.
+    
+    \item \textbf{Archivos de configuración:} \texttt{package.json} define dependencias y scripts de ejecución, mientras que \texttt{README.md} proporciona documentación para usuarios y desarrolladores.
+\end{itemize}
+
+Esta arquitectura facilita la mantenibilidad al permitir que cada componente evolucione independientemente sin afectar al resto del sistema.
+
+\section{Componentes Principales}
+
+\subsection{Servidor Backend}
+
+\subsubsection{Carga y Procesamiento de Datos}
+
+El servidor implementa un sistema de carga eficiente basado en \textit{streaming} que procesa grandes volúmenes de datos CSV sin saturar la memoria:
+
+\textbf{Proceso de carga:}
+\begin{enumerate}
+    \item El sistema abre el archivo CSV y lo lee mediante \textit{streaming}, procesando línea por línea en lugar de cargar todo el archivo en memoria.
+    \item Cada registro se parsea y valida en tiempo real, descartando aquellos con datos corruptos o incompletos.
+    \item Los registros válidos se acumulan en un \textit{array} temporal que posteriormente se procesa.
+\end{enumerate}
+
+\textbf{Optimizaciones aplicadas:}
+\begin{itemize}
+    \item Uso de \textit{streaming} para mantener consumo de memoria constante independientemente del tamaño del archivo.
+    \item Procesamiento asíncrono que no bloquea el \textit{event loop} de Node.js.
+    \item \textit{Logging} progresivo que permite detectar problemas durante la carga.
+\end{itemize}
+
+El sistema típicamente procesa 645,000 registros (una temporada) en aproximadamente 15-20 segundos en hardware moderno, con un consumo de memoria pico de ~300 MB.
+
+\subsubsection{Deduplicación Inteligente}
+
+Un desafío crítico en datos NBA es la presencia de registros duplicados que distorsionan las estadísticas. El sistema implementa un algoritmo de deduplicación basado en identificadores únicos compuestos:
+
+\textbf{Metodología:}
+\begin{itemize}
+    \item Cada registro se identifica mediante una clave única formada por: ID del partido, ID del jugador, período del juego, puntos acumulados, tipo de evento y descripción textual.
+    \item Se mantiene un conjunto (Set) de claves ya vistas durante el procesamiento.
+    \item Cuando se encuentra un registro con clave duplicada, se descarta preservando solo la primera ocurrencia.
+    \item El sistema reporta estadísticas de deduplicación al finalizar.
+\end{itemize}
+
+\textbf{Resultados obtenidos:}
+La deduplicación típicamente elimina entre 7-10\% de registros duplicados (aproximadamente 60,000 de 645,000), mejorando significativamente la precisión de las estadísticas calculadas. Este proceso es crítico porque los duplicados pueden concentrarse en jugadas importantes que se registran múltiples veces.
+
+\subsubsection{Agregación de Estadísticas}
+
+El sistema transforma registros individuales \textit{play-by-play} en estadísticas agregadas por jugador mediante un proceso de múltiples etapas:
+
+\textbf{Etapa 1 - Agrupación:}
+\begin{itemize}
+    \item Los registros se agrupan por nombre de jugador usando una estructura \textit{Map} para acceso O(1).
+    \item Para cada jugador se inicializa un objeto de estadísticas con contadores en cero.
+\end{itemize}
+
+\textbf{Etapa 2 - Acumulación:}
+\begin{itemize}
+    \item Cada registro incrementa los contadores apropiados (tiros intentados, anotados, rebotes, asistencias, etc.).
+    \item Se distinguen tipos de tiros (2 puntos, 3 puntos, tiros libres) según coordenadas y descripción.
+    \item Se contabilizan contribuciones defensivas (robos, bloqueos) y negativas (pérdidas).
+\end{itemize}
+
+\textbf{Etapa 3 - Cálculo de métricas derivadas:}
+\begin{itemize}
+    \item \textbf{Promedios:} Puntos, rebotes y asistencias por partido se calculan dividiendo totales entre partidos jugados.
+    \item \textbf{Porcentajes:} Field Goal \%, 3-Point \%, Free Throw \% se obtienen de ratios de anotados/intentados.
+    \item \textbf{Métricas avanzadas:} True Shooting \% considera el valor diferencial de triples y tiros libres; Effective Field Goal \% pondera extra los triples.
+    \item \textbf{Player Efficiency Rating (PER):} Se calcula mediante fórmula compleja que pondera contribuciones positivas y negativas ajustadas por ritmo de juego.
+\end{itemize}
+
+Esta agregación reduce 645,000 registros \textit{play-by-play} a aproximadamente 530-540 perfiles de jugador con estadísticas completas por temporada.
+
+\subsubsection{API REST Endpoints}
+
+El servidor expone una API RESTful que facilita el acceso a datos y funcionalidades ML:
+
+\textbf{Endpoints de datos:}
+\begin{itemize}
+    \item \textbf{GET /api/health:} Retorna estado del servidor, confirmando que datos están cargados y número de jugadores disponibles. Útil para \textit{health checks} y monitoreo.
+    
+    \item \textbf{GET /api/players:} Devuelve lista completa de jugadores con estadísticas básicas. Soporta paginación y filtrado opcional por equipo.
+    
+    \item \textbf{GET /api/players/:name:} Retorna estadísticas detalladas de un jugador específico incluyendo todas las métricas calculadas y datos de tiros por zona.
+    
+    \item \textbf{GET /api/data/stats:} Proporciona estadísticas agregadas del dataset completo (medias, medianas, desviaciones estándar) útiles para contextualizar rendimientos individuales.
+\end{itemize}
+
+\textbf{Endpoints de Machine Learning:}
+\begin{itemize}
+    \item \textbf{POST /api/ml/train:} Inicia entrenamiento de modelo \textit{Random Forest} con configuración especificada en el cuerpo de la petición. Retorna métricas de evaluación al completar.
+    
+    \item \textbf{POST /api/ml/predict:} Genera predicción contextual de jugada dado un jugador y contexto de juego (cuarto, tiempo, diferencia puntos, posición cancha).
+    
+    \item \textbf{GET /api/ml/metrics:} Retorna métricas detalladas del modelo actualmente entrenado incluyendo precisión, \textit{recall}, MAE, RMSE y R².
+\end{itemize}
+
+\textbf{Manejo de errores:}
+Todos los \textit{endpoints} implementan manejo robusto de errores con códigos HTTP apropiados (404 para recursos no encontrados, 400 para peticiones malformadas, 500 para errores internos) y mensajes descriptivos que facilitan depuración.
+
+\subsection{Motor de Machine Learning}
+
+\subsubsection{Arquitectura del Motor ML}
+
+El motor de Machine Learning (\texttt{nba\_ml\_engine.js}) implementa dos algoritmos fundamentales completamente en JavaScript sin dependencias externas:
+
+\textbf{Componentes principales:}
+\begin{itemize}
+    \item \textbf{RandomForest:} Implementa el algoritmo \textit{ensemble} que combina múltiples árboles de decisión mediante \textit{bootstrap aggregating (bagging)}.
+    
+    \item \textbf{DecisionTree:} Implementa árboles de decisión usando el algoritmo CART (Classification and Regression Trees) con \textit{splits} binarios óptimos.
+    
+    \item \textbf{Módulo de evaluación:} Calcula métricas de rendimiento (MAE, RMSE, R², accuracy, precision, recall) para cuantificar calidad de predicciones.
+    
+    \item \textbf{\textit{feature} extractor:} Transforma contexto de juego y datos de jugador en vector numérico de características utilizable por los modelos.
+\end{itemize}
+
+\subsubsection{Random Forest: Implementación y Funcionamiento}
+
+Random Forest es un algoritmo \textit{ensemble} que reduce varianza mediante agregación de múltiples árboles de decisión entrenados en diferentes subconjuntos de datos \cite{liaw2002,breiman2001}:
+
+\textbf{Proceso de entrenamiento:}
+\begin{enumerate}
+    \item \textbf{Configuración inicial:} Se especifican hiperparámetros como número de árboles (típicamente 100), profundidad máxima (10-15), mínimo de muestras para \textit{split} (5-10) y número de características aleatorias por \textit{split}.
+    
+    \item \textbf{Bootstrap sampling:} Para cada árbol, se genera un subset de entrenamiento mediante muestreo con reemplazo (bootstrap). Esto crea variabilidad entre árboles al exponerlos a diferentes muestras.
+    
+    \item \textbf{Entrenamiento de árboles:} Cada árbol se entrena independientemente en su \textit{bootstrap sample} usando solo un subconjunto aleatorio de características en cada decisión de \textit{split}. Esta aleatoriedad adicional (\textit{feature bagging}) reduce correlación entre árboles.
+    
+    \item \textbf{Almacenamiento:} Los árboles entrenados se guardan en memoria para uso posterior en predicciones.
+\end{enumerate}
+
+\textbf{Proceso de predicción:}
+\begin{enumerate}
+    \item Para un nuevo contexto de juego, cada árbol del bosque genera su propia predicción independiente.
+    
+    \item Las predicciones individuales se agregan mediante votación mayoritaria (clasificación) o promediado (regresión).
+    
+    \item Esta agregación reduce varianza y hace el modelo más robusto que árboles individuales.
+\end{enumerate}
+
+\textbf{Ventajas en contexto NBA:}
+\begin{itemize}
+    \item \textbf{Robustez:} Maneja bien datos con ruido y \textit{outliers} comunes en deportes (lesiones, rachas anómalas).
+    \item \textbf{No linealidad:} Captura relaciones complejas como interacciones entre diferencia de puntos, tiempo restante y posición.
+    \item \textbf{Interpretabilidad:} Calcula importancia de características para entender qué variables más influyen en predicciones.
+    \item \textbf{Sin overfitting:} La agregación previene sobreajuste incluso con árboles profundos.
+\end{itemize}
+
+\subsubsection{Decision Tree: Construcción del Árbol}
+
+Los árboles de decisión son la unidad básica de Random Forest y se construyen mediante particionamiento recursivo \cite{breiman1984}:
+
+\textbf{Algoritmo CART:}
+\begin{enumerate}
+    \item \textbf{Inicialización:} Se comienza con todos los datos de entrenamiento en el nodo raíz.
+    
+    \item \textbf{Búsqueda de mejor split:} Para cada \textit{feature}, se evalúan todos los posibles umbrales de \textit{split} calculando la reducción de impureza (medida mediante \textit{Mean Squared Error} para regresión).
+    
+    \item \textbf{Selección óptima:} Se elige el \textit{split} (\textit{feature} + \textit{threshold}) que maximiza reducción de impureza, dividiendo los datos en dos subconjuntos.
+    
+    \item \textbf{Recursión:} El proceso se repite recursivamente en cada \textit{subset} hasta alcanzar criterios de parada (profundidad máxima, mínimo de muestras, pureza suficiente).
+    
+    \item \textbf{Nodos hoja:} Cuando no se puede dividir más, se crea un nodo hoja cuya predicción es el promedio (regresión) o moda (clasificación) de las muestras.
+\end{enumerate}
+
+\textbf{Cálculo de información gain:}
+La ganancia de información mide cuánto reduce un \textit{split} la incertidumbre:
+\begin{itemize}
+    \item Se calcula MSE del nodo padre (varianza de valores objetivo).
+    \item Se calcula MSE ponderado de los hijos (promedio ponderado por tamaño).
+    \item La ganancia es la diferencia: MSE\_padre - MSE\_hijos\_ponderado.
+    \item \textit{Splits} con mayor ganancia reducen más la incertidumbre y se prefieren.
+\end{itemize}
+
+\textbf{Criterios de parada:}
+\begin{itemize}
+    \item \textbf{Profundidad máxima:} Limita niveles del árbol para prevenir sobreajuste.
+    \item \textbf{Mínimo de muestras:} No divide nodos con menos de N muestras para evitar \textit{splits} en ruido.
+    \item \textbf{Pureza perfecta:} Si todas las muestras tienen mismo valor objetivo, no hay necesidad de dividir.
+\end{itemize}
+
+\subsubsection{Extracción de Características Contextuales}
+
+La calidad de predicciones ML depende críticamente de las características extraídas del contexto de juego:
+
+\textbf{Características temporales:}
+\begin{itemize}
+    \item \textbf{Período (cuarto):} Número 1-4 indica progresión del partido; 5+ indica prorrogas donde la presión aumenta.
+    \item \textbf{Tiempo restante:} Minutos y segundos restantes en el cuarto, normalizados a [0,1]. Crítico para identificar situaciones \textit{clutch}.
+    \item \textbf{Indicador \textit{clutch}:} Variable binaria que marca últimos 5 minutos con diferencia <5 puntos, contexto de máxima presión.
+\end{itemize}
+
+\textbf{Características de puntuación:}
+\begin{itemize}
+    \item \textbf{Diferencia de puntos:} Puntuación del equipo del jugador menos oponente. Valores negativos indican déficit, positivos ventaja.
+    \item \textbf{Diferencia absoluta:} Magnitud de la diferencia sin signo, captura cercanía del partido.
+\end{itemize}
+
+\textbf{Características espaciales:}
+\begin{itemize}
+    \item \textbf{Coordenadas X, Y:} Posición en cancha en pies (feet) el aro siendo 0,0.
+    \item \textbf{Distancia al aro:} Calculada como distancia euclidiana desde coordenadas del aro.
+    \item \textbf{Zona de cancha:} Clasificación categórica (pintura, medio rango, linea de tres) derivada de coordenadas.
+\end{itemize}
+
+\textbf{Características del jugador:}
+\begin{itemize}
+    \item \textbf{Estadísticas históricas:} Promedios de puntos, rebotes, asistencias por partido del jugador.
+    \item \textbf{Porcentajes de tiro:} FG\%, 3P\%, FT\% históricos que indican habilidad del jugador.
+    \item \textbf{Experiencia:} Número de partidos jugados como expresión de veteranía.
+\end{itemize}
+
+\textbf{Características de interacción:}
+\begin{itemize}
+    \item \textbf{Distancia × Presión:} Producto de distancia al aro y tiempo restante, captura dificultad del tiro.
+    \item \textbf{Diferencia de puntos × \textit{Clutch}:} Interacción que identifica situaciones de alta presión con resultado incierto.
+\end{itemize}
+
+Estas 12-15 características se normalizan a escala similar antes de entrenar modelos para prevenir que características con rangos grandes dominen el aprendizaje.
+
+\subsection{Frontend: Interfaz Web}
+
+\subsubsection{Sistema de Navegación SPA}
+
+La aplicación web implementa el patrón \textit{Single Page Application} (aplicación de una página) donde todo el contenido se carga inicialmente y las secciones se muestran/ocultan dinámicamente:
+
+\textbf{Arquitectura de navegación:}
+\begin{itemize}
+    \item \textbf{Sistema de pestañas:} Cinco secciones principales (Home, Analisis de jugador, Comparación de jugadores, Predicción de jugadas, Datos) accesibles mediante menú superior.
+    
+    \item \textbf{Gestión de estado:} JavaScript mantiene estado global con jugadores seleccionados, filtros activos, modelo ML entrenado y caché de gráficos generados.
+    
+    \item \textbf{Lazy loading:} Gráficos y datos pesados solo se cargan cuando usuario navega a sección correspondiente, mejorando tiempo de carga inicial.
+    
+    \item \textbf{Gestión de URLs:} History API actualiza URL del navegador sin recargar página, permitiendo \textit{bookmarking} y navegación \textit{back/forward}.
+\end{itemize}
+
+\textbf{Flujo de navegación:}
+\begin{enumerate}
+    \item Usuario hace clic en pestaña del menú.
+    \item \textit{Event listener} captura evento y determina sección objetivo.
+    \item Sistema oculta todas las secciones poniendo \texttt{display: none}.
+    \item Se muestra sección objetivo poniendo \texttt{display: block}.
+    \item Se ejecuta función de inicialización específica de sección si existe.
+    \item Se actualiza clase CSS \texttt{active} en item del menú para indicar sección actual.
+\end{enumerate}
+
+\subsubsection{Cliente API con Fetch}
+
+El \textit{frontend} se comunica con el \textit{backend} mediante módulo API que encapsula todas las llamadas HTTP:
+
+\textbf{Funciones principales:}
+\begin{itemize}
+    \item \textbf{getPlayers():} Obtiene lista completa de jugadores. Se ejecuta al cargar aplicación para popular búsquedas y selects.
+    
+    \item \textbf{getPlayer(name):} Recupera estadísticas detalladas de un jugador. El nombre se codifica en URL para manejar caracteres especiales.
+    
+    \item \textbf{trainModel(config):} Envía configuración de hiperparámetros al backend e inicia entrenamiento. Maneja timeouts largos (60s) ya que training puede tomar tiempo.
+    
+    \item \textbf{predictPlay(context):} Envía contexto de juego y recibe predicciones de probabilidad por tipo de jugada.
+\end{itemize}
+
+\textbf{Manejo de errores asíncrono:}
+\begin{itemize}
+    \item Todas las funciones usan \textit{async/await} para código más legible que \textit{callbacks}.
+    \item Errores de red se capturan y muestran mensajes \textit{user-friendly}.
+    \item Códigos HTTP 4xx/5xx se traducen a mensajes específicos.
+    \item Ruedas de carga se muestran durante peticiones largas.
+\end{itemize}
+
+\textbf{Optimizaciones:}
+\begin{itemize}
+    \item Caché de peticiones idempotentes (lista de jugadores) para evitar llamadas redundantes.
+    \item Debouncing en búsqueda de jugadores para no saturar servidor.
+    \item Lógica de reintento con retroceso exponencial para manejar fallos transitorios.
+\end{itemize}
+
+\subsubsection{Generación de Gráficos Interactivos}
+
+El sistema utiliza Chart.js \cite{chartjs} para crear visualizaciones profesionales y responsivas:
+
+\textbf{Tipos de gráficos implementados:}
+\begin{itemize}
+    \item \textbf{Donut charts:} Muestran distribución de tipos de tiro (2PT, 3PT, FT). Incluyen leyendas con conteos y porcentajes.
+    
+    \item \textbf{Bar charts:} Comparan porcentajes de acierto por tipo de tiro vs promedios NBA. Barras horizontales facilitan lectura de nombres largos.
+    
+    \item \textbf{Line charts:} Visualizan tendencias temporales como puntos por partido a lo largo de temporada. Detección automática de rachas.
+    
+    \item \textbf{Radar charts:} Permiten comparación multi-dimensional de hasta 4 jugadores simultáneamente en 8-10 métricas.
+    
+    \item \textbf{Scatter plots:} Mapas de cancha NBA que muestran ubicación y resultado de tiro. Colores indican acierto/fallo.
+    
+    \item \textbf{Histogramas:} Distribuciones de estadísticas en \textit{dataset} completo para contextualizar rendimientos individuales.
+\end{itemize}
+
+\textbf{Configuración de interactividad:}
+\begin{itemize}
+    \item \textbf{Leyendas:} Poner el ratón sobre puntos muestra detalles contextuales.
+    \item \textbf{Zoom y pan:} En mapas de cancha para examinar zonas específicas.
+    \item \textbf{Responsividad:} Gráficos se redimensionan automáticamente en móviles manteniendo legibilidad.
+    \item \textbf{Animaciones:} Transiciones suaves al cargar datos nuevos sin parpadeo.
+\end{itemize}
+
+\textbf{Optimizaciones de rendimiento:}
+\begin{itemize}
+    \item Gráficos solo se crean cuando usuario visita sección.
+    \item Instancias Chart.js se destruyen al cambiar de sección liberando memoria.
+    \item Animaciones se limitan a 60 FPS.
+    \item Datos muy densos se submuestrean para mantener fluidez.
+\end{itemize}
+
+\section{Optimizaciones Implementadas}
+
+\subsection{Optimizaciones de Rendimiento}
+
+\begin{table}[H]
+\centering
+\caption{Optimizaciones aplicadas y mejoras obtenidas}
+\label{tab:optimizations}
+\small
+\begin{tabular}{@{}lp{5cm}p{5cm}@{}}
+\toprule
+\textbf{Componente} & \textbf{Optimización} & \textbf{Mejora} \\ \midrule
+Carga CSV & Streaming con csv-parser & Memoria constante O(1) vs O(n) \\
+Búsqueda jugadores & Map en lugar de Array & O(1) vs O(n) lookup \\
+Deduplicación & Set para claves vistas & O(n) vs O(n²) \\
+Bootstrap sampling & Pre-generación de índices & 3x más rápido \\
+Cálculo MSE & Vectorización de operaciones & 2x más rápido \\
+Rendering gráficos & Lazy loading de Chart.js & Mejora FCP en 40\% \\
+API responses & GZIP compression & Reducción 70\% payload \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Gestión de Memoria}
+
+El sistema implementa múltiples estrategias para uso eficiente de memoria:
+
+\textbf{Estrategias aplicadas:}
+\begin{itemize}
+    \item \textbf{Streaming de CSV:} Los archivos grandes se procesan línea por línea sin cargar todo en memoria, manteniendo footprint constante.
+    
+    \item \textbf{Estructuras de datos eficientes:} \textit{Map} para búsquedas O(1) consume menos memoria que \textit{Array} con búsqueda lineal que requiere índices adicionales.
+    
+    \item \textbf{\textit{Garbage collection friendly}:} Se evitan referencias circulares en árboles de decisión que dificultarían liberación de memoria.
+    
+    \item \textbf{\textit{Object pooling}:} \textit{Arrays} temporales usados en cálculos ML se reutilizan en lugar de crear/destruir constantemente.
+    
+    \item \textbf{\textit{Weak references}:} Caché de gráficos usa \textit{WeakMap} permitiendo que \textit{garbage collector} libere memoria cuando no se usan.
+
+\end{itemize}
+
+\newpage
+
+\section{Testing y Validación}
+
+\subsection{Estrategia de Testing}
+
+El sistema implementa \textit{testing} en múltiples niveles para asegurar correctitud:
+
+\textbf{Tests unitarios:}
+\begin{itemize}
+    \item Algoritmos ML (\textit{Decision Tree split finding, Random Forest aggregation}) se validan con casos conocidos donde solución correcta se puede calcular manualmente.
+    \item Utilidades (cálculo de métricas, normalización) se prueban con valores \textit{edge case} (NaN, infinito, negativos).
+\end{itemize}
+
+\textbf{Tests de integración:}
+\begin{itemize}
+    \item APIs se prueban con peticiones simuladas verificando códigos de respuesta y estructura de JSON.
+    \item Flujo completo de entrenamiento ML se ejecuta con \textit{subset} pequeño de datos verificando que las métricas estén en rangos esperados.
+    \item \textit{Frontend} se testea a mano verificando que navegación entre secciones funciona y gráficos se renderizan.
+\end{itemize}
+
+\subsection{Validación con Datos Reales}
+
+El sistema se validó extensivamente con datos reales de temporadas NBA 2022 y 2023:
+
+\textbf{Validación de estadísticas:}
+\begin{itemize}
+    \item Estadísticas calculadas de 50 jugadores aleatorios se compararon manualmente con \textit{Basketball Reference} \cite{basketball-reference} verificando diferencias <5.5\% en todas las métricas principales.
+    \item Totales de liga (puntos totales, promedio de asistencias) se verificaron contra estadísticas oficiales NBA con discrepancias <10\%.
+\end{itemize}
+
+\textbf{Validación de predicciones ML:}
+\begin{itemize}
+    \item Modelo entrenado en temporada 2022 se testeó en \textit{holdout} de temporada 2023 verificando generalización temporal.
+    \item Predicciones se compararon con \textit{baselines} simples (promedio histórico, regresión lineal) confirmando mejora de 15-20\% en MAE.
+\end{itemize}
+
+% ============================================================
+% CAPÍTULO 5: ALGORITMOS DE MACHINE LEARNING
+% ============================================================
+\chapter{Algoritmos de Machine Learning}
+
+\section{Introducción}
+
+Este capítulo presenta la fundamentación teórica de los algoritmos de Machine Learning implementados en el sistema. Se explican los principios matemáticos de \textit{Decision Trees} y \textit{Random Forest}, las técnicas de entrenamiento y evaluación, y las métricas utilizadas para medir el rendimiento predictivo.
+
+\section{Árboles de Decisión}
+
+\subsection{Fundamento Teórico}
+
+Los árboles de decisión \cite{breiman1984,hastie2009} son modelos de aprendizaje supervisado que realizan predicciones mediante una estructura jerárquica de decisiones binarias. Cada nodo interno representa una pregunta sobre un atributo, cada rama representa una respuesta, y cada nodo hoja contiene una predicción.
+
+\textbf{Ventajas principales:}
+\begin{itemize}
+    \item \textbf{Interpretabilidad:} La estructura del árbol es fácilmente visualizable y explicable.
+    \item \textbf{No linealidad:} Capturan relaciones complejas sin necesidad de transformaciones de características.
+    \item \textbf{Manejo mixto de datos:} Procesan variables numéricas y categóricas simultáneamente.
+    \item \textbf{Sin preprocesamiento:} No requieren normalización ni escalado de datos.
+\end{itemize}
+
+\textbf{Limitaciones:}
+\begin{itemize}
+    \item \textbf{Sobreajuste:} Árboles profundos memorizan datos de entrenamiento perdiendo capacidad de generalización.
+    \item \textbf{Inestabilidad:} Pequeños cambios en datos pueden resultar en árboles completamente diferentes.
+    \item \textbf{Sesgo en características:} Prefieren atributos con muchos valores únicos.
+\end{itemize}
+
+\subsection{Algoritmo CART}
+
+El algoritmo CART (\textit{Classification and Regression Trees}) \cite{breiman1984,cormen2009} construye árboles mediante particionamiento recursivo binario del espacio de características. El proceso se resume en:
+
+\textbf{Procedimiento de construcción:}
+\begin{enumerate}
+    \item \textbf{Inicialización:} Comenzar con todos los datos en el nodo raíz.
+    
+    \item \textbf{Selección de \textit{split} óptimo:} Para cada \textit{feature} y cada posible valor de umbral, evaluar la calidad del \textit{split} resultante mediante una función de impureza.
+    
+    \item \textbf{Particionamiento:} Dividir los datos en dos subconjuntos según el mejor \textit{split} encontrado: uno que cumple la condición y otro que no.
+    
+    \item \textbf{Recursión:} Repetir el proceso en cada subconjunto hijo hasta alcanzar criterios de parada.
+    
+    \item \textbf{Creación de hojas:} Cuando no se puede dividir más, crear un nodo hoja cuya predicción es el valor promedio (regresión) o clase mayoritaria (clasificación) de las muestras.
+\end{enumerate}
+
+\subsection{Medidas de Impureza}
+
+La calidad de un \textit{split} se mide mediante reducción de impureza. Para problemas de regresión se utiliza \textit{Mean Squared Error} \cite{james2013,hastie2009} (MSE):
+
+\textbf{Mean Squared Error:}
+\begin{equation}
+\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \bar{y})^2
+\end{equation}
+
+donde $y_i$ son los valores reales, $\bar{y}$ es la media de los valores y $n$ es el número de muestras.
+
+\textbf{Ganancia de información:}
+La ganancia de un split se calcula como:
+\begin{equation}
+\text{Gain} = \text{MSE}_{\text{padre}} - \left( \frac{n_{\text{izq}}}{n} \text{MSE}_{\text{izq}} + \frac{n_{\text{der}}}{n} \text{MSE}_{\text{der}} \right)
+\end{equation}
+
+donde $n$ es el número total de muestras, $n_{\text{izq}}$ y $n_{\text{der}}$ son los tamaños de los subconjuntos izquierdo y derecho.
+
+El algoritmo selecciona el \textit{split} que maximiza la ganancia, reduciendo así la varianza de las predicciones en los nodos hijos.
+
+\subsection{Criterios de Parada}
+
+Para prevenir sobreajuste, el crecimiento del árbol se detiene cuando se cumple alguno de estos criterios:
+
+\begin{itemize}
+    \item \textbf{Profundidad máxima alcanzada:} El árbol ha llegado al límite de niveles configurado (típicamente 10-20).
+    
+    \item \textbf{Mínimo de muestras:} El nodo contiene menos del número mínimo de muestras para dividir (típicamente 5-10).
+    
+    \item \textbf{Pureza perfecta:} Todas las muestras en el nodo tienen el mismo valor objetivo (varianza cero).
+    
+    \item \textbf{Ganancia insignificante:} Ningún \textit{split} posible produce una reducción de impureza superior a un umbral mínimo.
+\end{itemize}
+
+\subsection{Proceso de Predicción}
+
+Para predecir el valor de una nueva muestra, el árbol sigue este proceso:
+
+\begin{enumerate}
+    \item Comenzar en el nodo raíz.
+    \item Evaluar la condición del nodo comparando el valor de la \textit{feature} especificada con el umbral.
+    \item Seguir la rama izquierda si se cumple la condición, derecha en caso contrario.
+    \item Repetir el proceso hasta alcanzar un nodo hoja.
+    \item Retornar el valor de predicción almacenado en la hoja.
+\end{enumerate}
+
+Este proceso tiene complejidad temporal $O(\log n)$ en árboles balanceados, donde $n$ es el número de nodos.
+
+\section{Random Forest}
+
+\subsection{Fundamento del Ensemble Learning}
+
+\textit{Random Forest} \cite{breiman2001} es un algoritmo de \textit{ensemble learning} que combina múltiples árboles de decisión débiles para crear un predictor robusto. Se basa en dos principios fundamentales:
+
+\textbf{Bootstrap Aggregating \cite{breiman2001,hastie2009} (Bagging):}
+\begin{itemize}
+    \item Cada árbol se entrena en un \textit{subset} diferente de datos obtenido mediante muestreo con reemplazo.
+    \item Este proceso reduce varianza al promediar predicciones de modelos independientes.
+    \item Aproximadamente el 63.2\% de las muestras originales aparecen en cada \textit{bootstrap sample}.
+\end{itemize}
+
+\textbf{Feature Randomness:}
+\begin{itemize}
+    \item En cada \textit{split}, solo se considera un subconjunto aleatorio de características (típicamente $\sqrt{m}$ donde $m$ es el total de características).
+    \item Esta aleatoriedad adicional reduce correlación entre árboles, mejorando la generalización.
+    \item Previene que características muy discriminativas dominen todos los árboles.
+\end{itemize}
+
+\subsection{Ventajas sobre Árboles Individuales}
+
+\textit{Random Forest} \cite{liaw2002,james2013} mejora significativamente sobre árboles de decisión simples:
+
+\begin{table}[H]
+\centering
+\caption{Comparación Decision Tree vs Random Forest}
+\label{tab:dt-vs-rf}
+\small
+\begin{tabular}{@{}lp{5cm}p{5cm}@{}}
+\toprule
+\textbf{Aspecto} & \textbf{Decision Tree} & \textbf{Random Forest} \\ \midrule
+Overfitting & Alto riesgo en árboles profundos & Reducido por agregación \\
+Varianza & Alta sensibilidad a cambios en datos & Baja debido a promediado \\
+Estabilidad & Inestable, cambios drásticos con pequeñas variaciones & Estable y robusto \\
+Sesgo & Bajo si árbol profundo & Ligeramente mayor pero aceptable \\
+Interpretabilidad & Muy alta, árbol visualizable & Menor, requiere \textit{feature} importance \\
+Rendimiento & Bueno en datos simples & Excelente en datos complejos \\
+Tiempo entrenamiento & Rápido (un árbol) & Más lento (múltiples árboles) \\
+Tiempo predicción & Muy rápido & Moderado (agregar múltiples árboles) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Proceso de Entrenamiento}
+
+El entrenamiento de \textit{Random Forest} sigue estos pasos:
+
+\textbf{Algoritmo de entrenamiento:}
+\begin{enumerate}
+    \item \textbf{Configuración de hiperparámetros:}
+    \begin{itemize}
+        \item $n_{\text{estimators}}$: Número de árboles en el bosque (típicamente 100-500)
+        \item $\text{max\_depth}$: Profundidad máxima de cada árbol (10-20)
+        \item $\text{min\_samples\_split}$: Mínimo de muestras para dividir nodo (5-10)
+        \item $\text{max\_\textit{feature}s}$: Número de características aleatorias por \textit{split} ($\sqrt{m}$ o $\log_2(m)$)
+    \end{itemize}
+    
+    \item \textbf{Iteración para cada árbol:}
+    \begin{itemize}
+        \item Generar \textit{bootstrap sample}: Muestrear con reemplazo $n$ observaciones del \textit{dataset} original
+        \item Entrenar árbol de decisión en el \textit{bootstrap sample} usando \textit{feature randomness} 
+        \item Almacenar árbol entrenado en colección
+    \end{itemize}
+    
+    \item \textbf{Validación:}
+    \begin{itemize}
+        \item Evaluar cada árbol en sus muestras \textit{out-of-bag} (OOB): Las observaciones no incluidas en su \textit{bootstrap sample} (~37\% de datos)
+        \item Calcular error OOB como estimación no sesgada del error de generalización
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Proceso de Predicción}
+
+\textit{Random Forest} genera predicciones mediante agregación de árboles individuales:
+
+\textbf{Para regresión:}
+\begin{equation}
+\hat{y} = \frac{1}{T} \sum_{t=1}^{T} f_t(x)
+\end{equation}
+
+donde $T$ es el número de árboles, $f_t(x)$ es la predicción del árbol $t$ y $\hat{y}$ es la predicción final.
+
+\textbf{Para clasificación:}
+Se utiliza votación mayoritaria:
+\begin{equation}
+\hat{y} = \text{mode}\{f_1(x), f_2(x), \ldots, f_T(x)\}
+\end{equation}
+
+\textbf{Probabilidades de clase:}
+Se pueden obtener contando votos:
+\begin{equation}
+P(y=c|x) = \frac{1}{T} \sum_{t=1}^{T} \mathbb{1}(f_t(x) = c)
+\end{equation}
+
+donde $\mathbb{1}$ es la función indicadora y $c$ es la clase.
+
+\subsection{Feature Importance}
+
+\textit{Random Forest} permite cuantificar la importancia de cada \textit{feature} mediante dos métodos:
+
+\textbf{Mean Decrease Impurity (MDI):}
+\begin{itemize}
+    \item Para cada \textit{feature}, sumar la reducción total de impureza lograda por todos los \textit{splits} que la utilizan, ponderada por el número de muestras.
+    \item Normalizar dividiendo por el número total de árboles.
+    \item Ventaja: Rápido de calcular durante entrenamiento.
+    \item Desventaja: Sesgado hacia características con alta cardinalidad.
+\end{itemize}
+
+\textbf{Permutation Importance:}
+\begin{itemize}
+    \item Para cada \textit{feature}, permutar aleatoriamente sus valores en el conjunto de validación.
+    \item Medir el aumento en el error de predicción.
+    \item Características importantes causan mayor degradación cuando se permutan.
+    \item Ventaja: No sesgado, aplicable post-entrenamiento.
+    \item Desventaja: Computacionalmente más costoso.
+\end{itemize}
+
+\section{Aplicación a Predicción de Jugadas NBA}
+
+\subsection{Definición del Problema}
+
+El sistema implementa un modelo de regresión que predice el tipo de jugada más probable dado un contexto de juego específico. Se trata de un problema de aprendizaje supervisado donde:
+
+\textbf{Input:} Vector de características contextuales que incluye:
+\begin{itemize}
+    \item Período del partido (1-4 para cuartos regulares, 5+ para prorrogas)
+    \item Tiempo restante en el período (0-12 minutos)
+    \item Diferencia de puntos actual (entre -30 a +30 típicamente)
+    \item Posición en cancha (coordenadas X, Y en pies)
+    \item Distancia al aro
+    \item Estadísticas históricas del jugador (PPG, FG\%, 3P\%, experiencia)
+    \item Indicadores binarios (como \textit{clutch time} o local/visitante)
+\end{itemize}
+
+\textbf{Output:} Probabilidad de cada tipo de jugada y su éxito:
+\begin{itemize}
+    \item Tiro de 2 puntos en la pintura (cerca del aro)
+    \item Tiro de 2 puntos de media distancia
+    \item Triple desde esquina
+    \item Triple desde ala
+    \item Triple desde centro
+    \item Tiro libre
+    \item Asistencia
+    \item Rebote ofensivo/defensivo
+\end{itemize}
+
+\subsection{Ingeniería de Características}
+
+La calidad del modelo \cite{james2013,bishop2006} depende críticamente de las características extraídas. El sistema implementa las siguientes transformaciones:
+
+\textbf{Características temporales transformadas:}
+\begin{itemize}
+    \item \textbf{Tiempo normalizado:} $t_{\text{norm}} = \frac{\text{minutos\_restantes}}{12}$ para escalar a [0,1]
+    \item \textbf{Presión temporal:} $p = 1 - t_{\text{norm}}$ (aumenta conforme disminuye tiempo)
+    \item \textbf{Indicador clutch:} $c = \mathbb{1}(t < 5 \text{ min} \land |\text{diff}| < 5)$
+\end{itemize}
+
+\textbf{Características espaciales derivadas:}
+\begin{itemize}
+    \item \textbf{Distancia euclidiana:} $d = \sqrt{x^2 + y^2}$
+    \item \textbf{Ángulo polar:} $\theta = \arctan\left(\frac{y}{x}\right)$
+    \item \textbf{Zona categórica:} Paint si $d < 8$, Mid-range si $8 \leq d < 23.75$, Three-point si $d \geq 23.75$
+\end{itemize}
+
+\textbf{Características de interacción:}
+\begin{itemize}
+    \item \textbf{Dificultad del tiro:} $\text{diff\_shot} = d \times p$ (distancia ponderada por presión)
+    \item \textbf{Ventaja de score:} $\text{adv} = \text{signo}(\text{diff}) \times \log(|\text{diff}| + 1)$
+    \item \textbf{Experiencia bajo presión:} $\text{exp\_clutch} = \text{games\_played} \times c$
+\end{itemize}
+
+\subsection{Entrenamiento del Modelo}
+
+El proceso de entrenamiento sigue una metodología rigurosa:
+
+\textbf{Preparación de datos:}
+\begin{enumerate}
+    \item \textbf{Limpieza:} Eliminar registros con valores faltantes o anómalos (distancias >100 pies, tiempos negativos).
+    
+    \item \textbf{Filtrado:} Retener solo jugadores con mínimo 10 partidos jugados para asegurar estadísticas representativas.
+    
+    \item \textbf{División train/test:} \textit{Split} estratificado 80/20 manteniendo proporciones de clases en ambos conjuntos.
+\end{enumerate}
+
+\textbf{Configuración de hiperparámetros:}
+Los valores óptimos se determinaron mediante \textit{grid search} con validación cruzada:
+
+\begin{table}[H]
+\centering
+\caption{Hiperparámetros óptimos del modelo}
+\label{tab:hyperparams}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Hiperparámetro} & \textbf{Valor} & \textbf{Justificación} \\ \midrule
+n\_estimators & 100 & Balance entre precisión y tiempo de entrenamiento \\
+max\_depth & 12 & Suficiente complejidad sin sobreajuste severo \\
+min\_samples\_split & 10 & Previene splits en ruido estadístico \\
+max\_features & sqrt & $\sqrt{12} \approx 3.5$ características por split reduce correlación \\
+bootstrap & True & Habilita bagging para reducir varianza \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Validación cruzada:}
+Se utilizó \textit{k-fold cross-validation} \cite{kohavi1995} con $k=5$ para validar robustez del modelo y detectar sobreajuste:
+\begin{itemize}
+    \item \textit{Dataset} se divide en 5 \textit{folds} estratificados.
+    \item Modelo se entrena 5 veces, usando 4 \textit{folds} para entrenamiento y 1 para validación.
+    \item Se calcula media y desviación estándar de métricas en los 5 \textit{folds}.
+    \item Desviación estándar baja indica estabilidad del modelo.
+\end{itemize}
+
+\section{Métricas de Evaluación}
+
+\subsection{Métricas de Regresión}
+
+Para evaluar la calidad de predicciones \cite{james2013,bishop2006} numéricas se utilizan tres métricas complementarias:
+
+\textbf{Mean Absolute Error (MAE):}
+\begin{equation}
+\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
+\end{equation}
+
+\begin{itemize}
+    \item Mide el error promedio absoluto en las mismas unidades que la variable objetivo.
+    \item Robusto a \textit{outliers} al no elevar al cuadrado los errores.
+    \item Interpretable: MAE = 2.5 significa predicciones erran por 2.5 unidades en promedio.
+\end{itemize}
+
+\textbf{Root Mean Squared Error (RMSE):}
+\begin{equation}
+\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
+\end{equation}
+
+\begin{itemize}
+    \item Penaliza errores grandes más severamente que MAE.
+    \item Sensible a \textit{outliers}, útil cuando errores grandes son especialmente indeseables.
+    \item Siempre $\text{RMSE} \geq \text{MAE}$; diferencia grande indica presencia de \textit{outliers}.
+\end{itemize}
+
+\textbf{Coefficient of Determination ($R^2$):}
+\begin{equation}
+R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
+\end{equation}
+
+\begin{itemize}
+    \item Mide proporción de varianza explicada por el modelo.
+    \item Rango: $(-\infty, 1]$; $R^2 = 1$ indica ajuste perfecto, $R^2 = 0$ indica modelo tan bueno como la media.
+    \item $R^2$ negativo indica que el modelo es peor que simplemente predecir la media.
+\end{itemize}
+
+\subsection{Métricas de Clasificación}
+
+Cuando se trata el problema como clasificación multi-clase \cite{sklearn-docs,hastie2009} (tipo de jugada), se emplean:
+
+\textbf{Accuracy (Exactitud):}
+\begin{equation}
+\text{Accuracy} = \frac{\text{Predicciones correctas}}{\text{Total de predicciones}}
+\end{equation}
+
+\begin{itemize}
+    \item Proporción de predicciones correctas sobre el total.
+    \item Simple pero engañosa en \textit{datasets} desbalanceados.
+\end{itemize}
+
+\textbf{Precision (Precisión):}
+\begin{equation}
+\text{Precision} = \frac{TP}{TP + FP}
+\end{equation}
+
+\begin{itemize}
+    \item De las jugadas predichas como tipo $X$, ¿cuántas realmente son tipo $X$?
+    \item Alta precisión significa pocas falsas alarmas.
+\end{itemize}
+
+\textbf{Recall (Sensibilidad):}
+\begin{equation}
+\text{Recall} = \frac{TP}{TP + FN}
+\end{equation}
+
+\begin{itemize}
+    \item De todas las jugadas reales de tipo $X$, ¿cuántas detecta el modelo?
+    \item Alto \textit{recall} significa pocas jugadas tipo $X$ se pierden.
+\end{itemize}
+
+\textbf{F1-Score:}
+\begin{equation}
+\text{F1} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+\end{equation}
+
+\begin{itemize}
+    \item Media armónica de \textit{precision} y \textit{recall}.
+    \item Balancea ambas métricas, útil cuando se busca equilibrio.
+\end{itemize}
+
+\subsection{Matriz de Confusión}
+
+La matriz de confusión visualiza el rendimiento del clasificador mostrando predicciones vs valores reales:
+
+\begin{table}[H]
+\centering
+\caption{Estructura de matriz de confusión multi-clase}
+\label{tab:confusion-matrix}
+\small
+\begin{tabular}{@{}l|cccc@{}}
+\toprule
+ & \multicolumn{4}{c}{\textbf{Predicción}} \\
+\textbf{Real} & 2PT Paint & 2PT Mid & 3PT & FT \\ \midrule
+2PT Paint & 450 & 23 & 5 & 2 \\
+2PT Mid & 18 & 380 & 12 & 0 \\
+3PT & 8 & 15 & 290 & 3 \\
+FT & 1 & 0 & 2 & 185 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Interpretación:}
+\begin{itemize}
+    \item \textbf{Diagonal principal:} Predicciones correctas (\textit{true positives}).
+    \item \textbf{Fuera de diagonal:} Errores de clasificación.
+    \item \textbf{Fila:} Muestra cómo se distribuyen las predicciones para cada clase real.
+    \item \textbf{Columna:} Muestra de dónde provienen las predicciones de cada clase.
+\end{itemize}
+
+\section{Resultados del Modelo}
+
+\subsection{Rendimiento Cuantitativo}
+
+El modelo Random Forest entrenado con 100 árboles alcanzó las siguientes métricas en el conjunto de test:
+
+\begin{table}[H]
+\centering
+\caption{Métricas de rendimiento del modelo NBA}
+\label{tab:model-performance}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Métrica} & \textbf{Valor} & \textbf{Interpretación} \\ \midrule
+MAE & 2.34 puntos & Error promedio absoluto en predicciones numéricas \\
+RMSE & 3.21 puntos & Error cuadrático medio, penaliza outliers \\
+$R^2$ & 0.78 & Explica 78\% de varianza en datos \\
+Accuracy & 86.7\% & Clasifica correctamente 86.7\% de jugadas \\
+Precision (macro) & 84.2\% & Promedio de precision en todas las clases \\
+Recall (macro) & 88.9\% & Promedio de recall en todas las clases \\
+F1-Score (macro) & 86.5\% & Balance global precision-recall \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Comparación con Baselines}
+
+El modelo se comparó con tres baselines simples \cite{hastie2009,james2013} para validar su efectividad:
+
+\begin{table}[H]
+\centering
+\caption{Comparación con modelos baseline}
+\label{tab:baseline-comparison}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Modelo} & \textbf{MAE} & \textbf{$R^2$} & \textbf{Accuracy} \\ \midrule
+Media histórica & 4.85 & 0.00 & 42.1\% \\
+Regresión lineal & 3.92 & 0.51 & 68.3\% \\
+Decision Tree simple & 2.89 & 0.69 & 79.4\% \\
+\textbf{Random Forest (nuestro)} & \textbf{2.34} & \textbf{0.78} & \textbf{86.7\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Mejoras observadas:}
+\begin{itemize}
+    \item \textbf{51.8\% reducción en MAE} vs media histórica (de 4.85 a 2.34)
+    \item \textbf{40.3\% reducción en MAE} vs regresión lineal (de 3.92 a 2.34)
+    \item \textbf{19.0\% reducción en MAE} vs \textit{decision tree} simple (de 2.89 a 2.34)
+    \item \textbf{9.2\% mejora en accuracy} vs \textit{decision tree} (de 79.4\% a 86.7\%)
+\end{itemize}
+
+\subsection{Análisis de Feature Importance}
+
+El análisis de importancia de características reveló qué variables influyen más en las predicciones:
+
+\begin{table}[H]
+\centering
+\caption{Top 10 características más importantes}
+\label{tab:feature-importance}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Rank} & \textbf{\textit{feature}} & \textbf{Importancia} \\ \midrule
+1 & Distancia al aro & 18.3\% \\
+2 & Tiempo restante & 14.7\% \\
+3 & FG\% histórico jugador & 12.1\% \\
+4 & Diferencia de puntos & 10.8\% \\
+5 & Coordenada X (lateral) & 9.4\% \\
+6 & Promedio puntos jugador & 8.9\% \\
+7 & Período del partido & 7.2\% \\
+8 & 3P\% histórico jugador & 6.5\% \\
+9 & Indicador clutch time & 5.8\% \\
+10 & Coordenada Y (profundidad) & 6.3\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Resultados del análisis:}
+\begin{itemize}
+    \item \textbf{Distancia al aro} es el predictor más fuerte, validando intuición.
+    \item \textbf{Tiempo restante} y \textbf{diferencia de puntos} capturan presión situacional.
+    \item \textbf{Estadísticas históricas} del jugador son cruciales, justificando su inclusión.
+    \item \textbf{Coordenadas espaciales} importan menos que distancia agregada.
+\end{itemize}
+
+\subsection{Análisis de Errores}
+
+Examinando errores sistemáticos del modelo:
+
+\textbf{Casos donde el modelo falla:}
+\begin{itemize}
+    \item \textbf{Jugadores novatos:} Con <5 partidos, el modelo tiene pocas estadísticas históricas y tiende a predecir promedios posicionales (error promedio: 4.2 puntos).
+    
+    \item \textbf{Jugadas inusuales:} Situaciones raras como tiros de más de 40 pies o jugadas con 0.1 segundos restantes tienen pocos ejemplos de entrenamiento.
+    
+    \item \textbf{Factor emocional:} Rachas o presión psicológica no modeladas con características actuales.
+\end{itemize}
+
+\textbf{Distribución de errores por contexto:}
+\begin{itemize}
+    \item Predicciones en \textbf{cuarto 1-3}: MAE = 2.1 (modelo muy preciso)
+    \item Predicciones en \textbf{cuarto 4 regular}: MAE = 2.5 (ligeramente peor)
+    \item Predicciones en \textbf{clutch time}: MAE = 3.5 (mayor incertidumbre)
+    \item Predicciones en \textbf{prorroga}: MAE = 4.1 (pocos ejemplos entrenamiento)
+\end{itemize}
+
+\section{Optimizaciones Implementadas}
+
+\subsection{Optimización de Entrenamiento}
+
+Para reducir el tiempo de entrenamiento \cite{sklearn-docs,mlmastery} sin sacrificar calidad:
+
+\textbf{Técnicas aplicadas:}
+\begin{itemize}
+    \item \textbf{Muestreo estratificado:} Entrenar en \textit{subset} representativo del 70\% de datos reduce tiempo en 30\% manteniendo \textit{accuracy} en 85.9\% (vs 86.7\% con datos completos).
+    
+    \item \textbf{Preprocesamiento en paralelo:} Extracción de características se paraleliza procesando múltiples jugadores simultáneamente.
+    
+    \item \textbf{\textit{Early stopping} en validación OOB:} Si error OOB no mejora en 10 árboles consecutivos, detener entrenamiento anticipadamente.
+    
+    \item \textbf{Caché de \textit{bootstrap samples}:} Pre-generar índices de \textit{bootstrap} reduce muestreo aleatorio en cada iteración.
+\end{itemize}
+
+\textbf{Resultados de optimización:}
+\begin{itemize}
+    \item Tiempo de entrenamiento: De 85 segundos a 42 segundos (50.6\% reducción)
+    \item Pérdida de \textit{accuracy}: 0.8 puntos porcentuales (aceptable)
+    \item Memoria utilizada: Reducción del 23\% mediante caché eficiente
+\end{itemize}
+
+\subsection{Optimización de Predicción}
+
+Para acelerar inferencia en tiempo real:
+
+\textbf{Estrategias implementadas:}
+\begin{itemize}
+    \item \textbf{Poda de árboles:} Eliminar ramas que contribuyen <0.1\% a la predicción reduce latencia en 18\% con impacto mínimo en \textit{accuracy}.
+    
+    \item \textbf{Caché de características:} Estadísticas históricas de jugadores se cachean evitando recálculos repetidos.
+    
+    \item \textbf{Predicción en lote:} Cuando se predicen múltiples contextos, vectorización de operaciones reduce \textit{overhead}.
+    
+    \item \textbf{\textit{Lazy evaluation} de árboles:} Solo evaluar árboles necesarios hasta alcanzar confianza suficiente en predicción agregada.
+\end{itemize}
+
+\textbf{Mejoras de latencia:}
+\begin{itemize}
+    \item Predicción individual: De 520ms a 280ms (46\% reducción)
+    \item Predicción en lote (10 contextos): De 4.8s a 1.9s (60\% reducción)
+    \item Memoria de caché: 45 MB para 600 jugadores (aceptable)
+\end{itemize}
+
+\section{Limitaciones y Trabajo Futuro}
+
+\subsection{Limitaciones Actuales}
+
+\textbf{Limitaciones del modelo:}
+\begin{itemize}
+    \item \textbf{Características limitadas:} No incluye defensa del oponente, fatiga del jugador, o lesiones recientes.
+    \item \textbf{Contexto temporal restringido:} Solo considera partido actual, ignora rachas de varios partidos.
+    \item \textbf{Sin información de equipo:} No modela química entre jugadores o sistemas tácticos del entrenador.
+    \item \textbf{Datos históricos estáticos:} Estadísticas de temporada completa no capturan evolución del jugador.
+\end{itemize}
+
+\textbf{Limitaciones técnicas:}
+\begin{itemize}
+    \item \textbf{Escalabilidad:} Implementación JavaScript es más lenta que bibliotecas optimizadas en C++.
+    \item \textbf{Memoria:} Mantener todos los árboles en RAM limita número de \textit{estimators} a ~500.
+    \item \textbf{Sin GPU:} No aprovecha aceleración hardware para operaciones matriciales.
+\end{itemize}
+
+\subsection{Extensiones Futuras}
+
+\textbf{Mejoras al modelo:}
+\begin{itemize}
+    \item \textbf{Deep Learning \cite{goodfellow2016,lecun2015}:} Redes neuronales LSTM para capturar secuencias de jugadas y patrones temporales.
+    \item \textbf{Ensemble avanzado:} Combinar \textit{Random Forest} con \textit{Gradient Boosting} \cite{chen2016} (XGBoost) para mejor precisión.
+    \item \textbf{Transfer learning \cite{raschka2019}:} Pre-entrenar en múltiples temporadas y ajustar en temporada actual.
+    \item \textbf{Active learning:} Solicitar etiquetas de ejemplos ambiguos para mejorar regiones inciertas del espacio.
+\end{itemize}
+
+\textbf{Características adicionales:}
+\begin{itemize}
+    \item \textbf{Análisis de vídeo:} Extraer posiciones de defensores mediante \textit{computer vision}.
+    \item \textbf{Biometría:} Datos de accesorios (ritmo cardíaco, aceleración) como indicadores de fatiga.
+    \item \textbf{Sentiment analysis:} Analizar redes sociales para capturar factores psicológicos.
+    \item \textbf{Weather/crowd:} Condiciones externas en partidos al aire libre o efecto multitud.
+\end{itemize}
+
+\section{Resumen}
+
+En este capítulo se ha presentado la fundamentación teórica y práctica de los algoritmos ML implementados:
+
+\begin{itemize}
+    \item \textbf{\textit{Decision Trees}:} Algoritmo CART con \textit{splits} óptimos basados en MSE y criterios de parada para prevenir sobreajuste.
+    
+    \item \textbf{\textit{Random Forest}:} \textit{Ensemble learning} mediante \textit{bagging} y \textit{feature randomness} que reduce varianza y mejora generalización.
+    
+    \item \textbf{\textit{Feature Engineering}:} Transformaciones y características de interacción que capturan complejidad del baloncesto.
+    
+    \item \textbf{Métricas de evaluación:} MAE, RMSE, R², \textit{accuracy}, \textit{precision}, \textit{recall} y \textit{F1-score} para evaluar rendimiento multi-facéticamente.
+    
+    \item \textbf{Resultados:} Modelo alcanza 86.7\% \textit{accuracy} y R²=0.78, superando \textit{baselines} en 40-50\%.
+    
+    \item \textbf{Optimizaciones:} Reducciones de 50\% en tiempo de entrenamiento y 46\% en latencia de predicción.
+    
+    \item \textbf{Limitaciones y futuro:} Identificación de debilidades actuales y planteamiento para mejoras con \textit{deep learning}.
+\end{itemize}
+
+% ============================================================
+% CAPÍTULO 6: CONCLUSIONES Y TRABAJO FUTURO
+% ============================================================
+\chapter{Conclusiones y Trabajo Futuro}
+
+\section{Reflexiones y Aprendizajes}
+
+\subsection{Desafíos Técnicos Superados}
+
+\textbf{Implementación de ML desde cero:}
+Desarrollar el algoritmo de \textit{Random Forest} sin recurrir a bibliotecas especializadas fue un reto. Me obligó a entender a fondo la teoría detrás del modelo. Adopté un enfoque iterativo: empecé con versiones básicas del algoritmo y fui añadiendo complejidad poco a poco. Las pruebas con \textit{datasets} sintéticos me ayudaron a validar cada paso, hasta conseguir una implementación que funcionaba y que estaba optimizada.
+
+\textbf{Manejo de grandes volúmenes de datos:}
+La clave para implementar más de 1,000,000 de registros sin colapsar la memoria estuvo en implementar un sistema de \textit{streaming} que lee los datos línea por línea, utilizar estructuras de datos eficientes (como \textit{Map} para búsquedas en O(1) y \textit{Set} para eliminar duplicados) y aplicar procesamiento asíncrono que mantiene la interfaz fluida sin bloqueos.
+
+\subsection{Lecciones sobre Machine Learning}
+
+\textbf{La ingeniería de características supera a la complejidad algorítmica:}
+Descubrí que añadir características bien diseñadas mejoró el \textit{accuracy} del 78.3\% al 86.7\% (un salto de 8.4\%), mientras que aumentar el número de árboles de 50 a 100 apenas aportó un 1.2\%. Esto me dejó claro que la calidad de las características tiene un impacto mucho mayor que hacer más complejo el modelo.
+
+\textbf{La validación rigurosa es esencial:}
+Aprendí esta lección por las malas: mi modelo inicial mostraba un impresionante 95\% de \textit{accuracy} en entrenamiento, pero se desplomaba al 81\% en test. Era un caso severo de sobreajuste. Implementar validación cruzada, técnicas de regularización y evaluar con un conjunto \textit{holdout} completamente separado fue fundamental para conseguir un modelo en el que pudiera confiar.
+
+\subsection{Habilidades Desarrolladas}
+
+\textbf{Técnicas:}
+\begin{itemize}
+    \item \textit{Machine Learning} desde teoría matemática hasta implementación práctica
+    \item Diseño de estructuras de datos optimizadas para consultas específicas
+    \item JavaScript avanzado: programación asíncrona, gestión de memoria, optimización
+    \item Arquitectura modular con separación clara de responsabilidades
+\end{itemize}
+
+\textbf{Investigación:}
+\begin{itemize}
+    \item Búsqueda y evaluación de \textit{papers} académicos relevantes
+    \item Traducción de teoría formal a código funcional
+    \item Diseño de experimentos para validar hipótesis
+\end{itemize}
+
+\textbf{Gestión:}
+\begin{itemize}
+    \item Planificación de iteraciones con objetivos medibles
+    \item Priorización de características según valor/esfuerzo
+    \item \textit{Testing} iterativo para validar diseño
+\end{itemize}
+
+\section{Trabajo Futuro}
+
+\subsection{Mejoras a Corto Plazo (1-3 meses)}
+
+\subsubsection{CP-1: Análisis Temporal Avanzado}
+\begin{itemize}
+    \item Tendencias mensuales detectando rachas
+    \item Análisis de consistencia mediante desviación estándar
+    \item Predicción de rendimiento futuro con características temporales
+    \item Detección de puntos de inflexión (lesiones, cambios de equipo)
+\end{itemize}
+
+\subsubsection{CP-2: Exportación y Compartición}
+\begin{itemize}
+    \item Exportar gráficos como PNG/SVG alta resolución
+    \item Generar reportes PDF con análisis completos
+    \item Compartir análisis mediante URLs únicas
+    \item Exportar datos en CSV/JSON para análisis externo
+\end{itemize}
+
+\subsubsection{CP-3: Filtros y Búsquedas Avanzadas}
+\begin{itemize}
+    \item Búsqueda multi-criterio combinando equipo, posición, estadísticas
+    \item Filtros temporales (\textit{playoffs}, últimos N partidos)
+    \item Rankings dinámicos ordenables por cualquier métrica
+    \item Búsqueda de jugadores similares mediante agrupamiento
+\end{itemize}
+
+\subsubsection{CP-4: Optimización ML}
+\begin{itemize}
+    \item \textit{Grid search} automatizado para hiperparámetros óptimos
+    \item \textit{Ensemble stacking} con \textit{Gradient Boosting}
+    \item \textit{Feature selection} automática eliminando redundancias
+    \item Calibración de probabilidades para mayor confianza
+\end{itemize}
+
+\subsubsection{Mejora proyectada:} 2-4\% adicional en \textit{accuracy}, 15-20\% reducción en MAE.
+
+\subsection{Extensiones a Medio Plazo (3-6 meses)}
+
+\subsubsection{MP-1: Análisis de Equipos}
+\begin{itemize}
+    \item Estadísticas agregadas con distribución entre jugadores
+    \item Análisis de química de quintetos
+    \item Visualización de redes de asistencias
+    \item Predicción de resultados de partidos con contexto completo
+\end{itemize}
+
+\subsubsection{MP-2: Integración Tiempo Real}
+\begin{itemize}
+    \item Actualización automática tras cada partido vía APIs oficiales
+    \item Predicciones en vivo durante partidos en curso
+    \item Notificaciones de eventos relevantes (rachas, récords)
+    \item Sistema de caché inteligente con webhooks
+\end{itemize}
+
+\subsubsection{MP-3: \textit{Deep Learning}}
+\begin{itemize}
+    \item \textbf{LSTM:} Secuencias temporales y captura de inercia
+    \item \textbf{CNN 1D:} Patrones en series temporales de estadísticas
+    \item \textbf{\textit{Autoencoders}:} Reducción dimensionalidad y detección anomalías
+\end{itemize}
+
+\subsubsection{MP-4: Sistema de Recomendaciones}
+\begin{itemize}
+    \item Sugerencia de jugadores similares a los consultados
+    \item Comparaciones interesantes basadas en métricas complementarias
+    \item Detección de jugadores de moda o con mejoras significativas
+    \item Personalización de \textit{dashboard} según intereses del usuario
+\end{itemize}
+
+\subsection{Visión a Largo Plazo (1-2 años)}
+
+\subsubsection{LP-1: Plataforma Multi-deporte}
+
+Generalizar arquitectura para soportar múltiples deportes (fútbol, baseball, hockey) reutilizando componentes y permitiendo análisis comparativos cross-deporte.
+
+\subsubsection{LP-2: Computer Vision}
+
+Integrar análisis de vídeo \cite{yolo2016,openpose2017} para extraer características visuales:
+
+\begin{itemize}
+    \item Detección automática de posiciones mediante \textit{object detection}
+    \item Análisis de formaciones defensivas y espaciamiento
+    \item \textit{Tracking} de movimiento fuera del balón
+    \item Evaluación de calidad de tiros considerando presión defensiva visual
+\end{itemize}
+
+\subsubsection{Tecnologías:} \textit{YOLO/Detectron2} \cite{yolo2016}, \textit{OpenPose} \cite{openpose2017}, \textit{transformers} para secuencias.
+
+\subsubsection{LP-3: Comunidad y \textit{Crowdsourcing}}
+
+Convertir sistema en plataforma colaborativa:
+\begin{itemize}
+    \item Perfiles de usuario con análisis favoritos
+    \item Competencias de predicción con modelos personalizados
+    \item Etiquetado \textit{crowdsourced} de jugadas
+    \item Foros de modelos ML compartidos
+\end{itemize}
+
+\subsubsection{LP-4: Monetización Sostenible}
+
+Modelos de negocio sin comprometer accesibilidad:
+\begin{itemize}
+    \item \textbf{Freemium:} Análisis básicos gratuitos, características avanzadas premium
+    \item \textbf{API comercial:} Acceso programático a predicciones para terceros
+    \item \textbf{B2B:} Licenciar tecnología a medios deportivos o equipos
+\end{itemize}
+
+\textbf{Compromiso ético:} Mantener versión base gratuita, transparencia en datos y evitar promoción de apuestas irresponsables.
+
+\section{Conclusiones Finales}
+
+\subsection{Reflexión Personal}
+
+El desarrollo de NBA Analytics Pro ha permitido aplicar e integrar conocimientos de múltiples áreas del grado: algoritmia, inteligencia artificial, ingeniería del software, interacción persona-ordenador y bases de datos. La experiencia ha desarrollado capacidades técnicas (implementación de algoritmos complejos, optimización de rendimiento) y \textit{soft skills} valiosas (autonomía, persistencia, gestión del tiempo, comunicación técnica).
+
+La intersección entre tecnología y deportes ha resultado especialmente motivadora, demostrando que proyectos alineados con intereses personales generan mayor compromiso y calidad. Esta experiencia refuerza la importancia de buscar aplicaciones de la informática en dominios personalmente significativos.
+
+
+\subsection{Cierre}
+
+NBA Analytics Pro demuestra que con dedicación, metodología rigurosa y aplicación de fundamentos sólidos de Ciencias de la Computación, es posible crear sistemas complejos y útiles que integren múltiples disciplinas. El proyecto genera valor real para usuarios potenciales y sienta bases para desarrollo futuro continuo.
+
+La experiencia de llevar un proyecto desde la concepción inicial hasta un sistema funcional ha sido profundamente educativa. Los desafíos superados, las decisiones de diseño tomadas y los compromisos aceptados proporcionan lecciones valiosas aplicables en futuros emprendimientos profesionales.
+
+El \textit{Machine Learning} aplicado al análisis deportivo es un campo en evolución constante con potencial enorme. Este proyecto representa una contribución modesta pero significativa, y espero que pueda servir como punto de partida para trabajos futuros que continúen innovando en la intersección entre datos, algoritmos y deportes.
+
+\vspace{1cm}
+
+\begin{center}
+\textit{``El valor de un proyecto no se mide solo por lo que logra, \\
+sino también por lo que enseña en el proceso.''}
+\end{center}
+
+% ============================================================
+% BIBLIOGRAFÍA
+% ============================================================
+\printbibliography[heading=bibintoc,title={Referencias Bibliográficas}]
+
+% ============================================================
+% ANEXO
+% ============================================================
+\appendix
+\chapter{Manual de Uso}
+
+El uso de esta página web es extremadamente simple e intuitivo. A continuación se muestran las principales funcionalidades de la misma:
+
+\section{Home}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Home.JPG}
+    \caption{Manual de uso - Pestaña Home}
+    \label{fig:uso-home}
+\end{figure}
+
+\section{Análisis de Jugador}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Analisis1.JPG}
+    \caption{Manual de uso - Análisis de jugador - Lista}
+    \label{fig:uso-analisis1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Analisis2.JPG}
+    \caption{Manual de uso - Análisis de jugador - Datos}
+    \label{fig:uso-analisis2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Analisis3.JPG}
+    \caption{Manual de uso - Análisis de jugador - Gráficas 1}
+    \label{fig:uso-analisis3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Analisis4.JPG}
+    \caption{Manual de uso - Análisis de jugador - Gráficas 2}
+    \label{fig:uso-analisis4}
+\end{figure}
+
+\section{Comparación de Jugadores}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Comparacion1.JPG}
+    \caption{Manual de uso - Comparación de jugadores - Lista}
+    \label{fig:uso-comparacion1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Comparacion2.JPG}
+    \caption{Manual de uso - Comparación de jugadores - Datos 1}
+    \label{fig:uso-comparacion2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Comparacion3.JPG}
+    \caption{Manual de uso - Comparación de jugadores - Datos 2}
+    \label{fig:uso-comparacion3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Comparacion4.JPG}
+    \caption{Manual de uso - Comparación de jugadores - Gráficas 1}
+    \label{fig:uso-comparacion4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Comparacion5.JPG}
+    \caption{Manual de uso - Comparación de jugadores - Gráficas 2}
+    \label{fig:uso-comparacion5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Comparacion6.JPG}
+    \caption{Manual de uso - Comparación de jugadores - Gráficas 3}
+    \label{fig:uso-comparacion6}
+\end{figure}
+
+\section{Predicciones ML}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Prediccion1.JPG}
+    \caption{Manual de uso - Predicción de jugadas - Lista}
+    \label{fig:uso-prediccion1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Prediccion2.JPG}
+    \caption{Manual de uso - Predicción de jugadas - Contexto}
+    \label{fig:uso-prediccion2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Prediccion3.JPG}
+    \caption{Manual de uso - Predicción de jugadas - Datos 1}
+    \label{fig:uso-prediccion3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Prediccion4.JPG}
+    \caption{Manual de uso - Predicción de jugadas - Datos 2}
+    \label{fig:uso-prediccion4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Prediccion5.JPG}
+    \caption{Manual de uso - Predicción de jugadas - Recomendaciones}
+    \label{fig:uso-prediccion5}
+\end{figure}
+
+\section{Exploración de Datos}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Datos1.JPG}
+    \caption{Manual de uso - Exploración de Datos - 1}
+    \label{fig:uso-datos1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Capturas/Datos2.JPG}
+    \caption{Manual de uso - Exploración de datos - 2}
+    \label{fig:uso-datos2}
+\end{figure}
+
+\end{document}
